@@ -91,4 +91,4 @@ describe "parseRiff", ->
 		result = marktab.parseRiff riff
 
 		# assert
-		expect(result).toBe({3:[5,null,7]})		
+		expect(result).toBe({3:[5,null,7]})

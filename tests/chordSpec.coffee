@@ -12,4 +12,3 @@ describe "parseChord", ->
 
 		# assert
 		expect(result).toBe({3:[9], 4:[9], 5:[7]})	
-

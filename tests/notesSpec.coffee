@@ -1,14 +1,14 @@
-describe "parseNote", ->
+describe "parseNotes", ->
 	it "Should exist", ->
 		#assert
-		expect(marktab.parseNote).toBeDefined()
+		expect(marktab.parseNotes).toBeDefined()
 	
 	it "Should convert a single note to json", ->
 		# arrange
 		note = "1:1"
 
 		# act
-		result = marktab.parseNote note
+		result = marktab.parseNotes note
 
 		# assert
 		expect(result).toBe({1:[1]})
@@ -18,7 +18,7 @@ describe "parseNote", ->
 		notes = "6:12 5:1 1:7"
 
 		# act
-		result = marktab.parseNote notes
+		result = marktab.parseNotes notes
 
 		# assert
 		expect(result).toBe({1:[null,null,7], 5:[null,1], 6:[12]})
@@ -28,7 +28,7 @@ describe "parseNote", ->
 		notes = "1:1 r 1:1"
 
 		#act
-		result = marktab.parseNote notes
+		result = marktab.parseNotes notes
 
 		#assert
 		expect(result).toBe({1:[1, null, 1]})
@@ -38,7 +38,7 @@ describe "parseNote", ->
 		notes = "1:1 h 1:2"
 
 		#act
-		result = marktab.parseNote notes
+		result = marktab.parseNotes notes
 
 		#assert
 		expect(result).toBe({1:[1, 'h', 2]})		
@@ -48,7 +48,7 @@ describe "parseNote", ->
 		notes = "4:10 p 4:9"
 
 		#act
-		result = marktab.parseNote notes
+		result = marktab.parseNotes notes
 
 		#assert
 		expect(result).toBe({4:[10, 'p', 9]})		
@@ -58,7 +58,7 @@ describe "parseNote", ->
 		notes = "3:10 / 3:11"
 
 		#act
-		result = marktab.parseNote notes
+		result = marktab.parseNotes notes
 
 		#assert
 		expect(result).toBe({3:[10, '/', 11]})	
@@ -68,7 +68,8 @@ describe "parseNote", ->
 		notes = "2:6 \ 2:3"
 
 		#act
-		result = marktab.parseNote notes
+		result = marktab.parseNotes notes
 
 		#assert
-		expect(result).toBe({2:[6, '\\', 3]})					
+		expect(result).toBe({2:[6, '\\', 3]})
+				
