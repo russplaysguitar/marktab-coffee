@@ -1,7 +1,7 @@
 describe "parseChord", ->
 	it "Should exist", ->
 		#assert
-		expect(marktab.parseChord).toBeDefined()
+		expect(marktab.parseChord).toBeDefined
 
 	it "Should convert chords to json", ->
 		# arrange

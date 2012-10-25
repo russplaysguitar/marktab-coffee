@@ -1,4 +1,7 @@
 describe "generator", ->
+	it "should exist", ->
+		expect(marktab.generate).toBeDefined()
+
 	it "should make an empty tab map", ->
 		# act
 		result = marktab.generate

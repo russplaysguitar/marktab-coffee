@@ -1,7 +1,7 @@
 describe "parseNotes", ->
 	it "Should exist", ->
 		#assert
-		expect(marktab.parseNotes).toBeDefined()
+		expect(marktab.parseNotes).toBeDefined
 	
 	it "Should convert a single note to json", ->
 		# arrange
@@ -72,4 +72,3 @@ describe "parseNotes", ->
 
 		#assert
 		expect(result).toBe({2:[6, '\\', 3]})
-				
