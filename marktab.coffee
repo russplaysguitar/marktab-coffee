@@ -12,15 +12,19 @@ class Marktab
 			@json[key] ?= []
 		this
 
+	# parses marktab notes into json
 	parseNotes: (notes) ->
 		""
 
+	# parses marktab chords into json
 	parseChord: (chord) ->
 		""
 
+	# parses marktab riffs into json
 	parseRiff: (riff) ->
 		""
 
+	# parses marktab variables into json
 	parseVariable: (variable) ->
 		""
 
@@ -35,7 +39,7 @@ class Marktab
 			json[stringNum][max-1] ?= undefined		
 		json
 
-	# generates tab from a json tab map
+	# generates tab from a json note map
 	generate: (json = @json) ->
 		result = ""
 		this.normalizeJson(json)
