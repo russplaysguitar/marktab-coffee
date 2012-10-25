@@ -1,8 +1,12 @@
+### Overview
 A [MarkTab](https://github.com/cknadler/marktab) parser written in CoffeeScript. Note: This is a different parser implementation than the original.
 
 Not currently functional.
 
-Concept:
+### Tests
+Tests must be run from a web server context, not a file:// url.
+
+### Concept
 Converts marktab to json in this format:
 
 {
