@@ -1,7 +1,9 @@
-Idea: implement marktab in coffeescript using TDD
+A [MarkTab](https://github.com/cknadler/marktab) parser written in CoffeeScript. Note: This is a different parser implementation than the original.
 
-Implementation:
-Convert marktab to json in this format:
+Not currently functional.
+
+Concept:
+Converts marktab to json in this format:
 
 {
 	1:[],
@@ -12,4 +14,4 @@ Convert marktab to json in this format:
 	6:[]
 }
 
-Where the arrays contain the notes for that string in order, with nulls representing non-note spaces.
+Then generates tab from the json.
