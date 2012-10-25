@@ -1,4 +1,9 @@
 describe "parseNotes", ->
+	marktab = undefined
+
+	beforeEach ->
+		marktab = new Marktab
+
 	it "Should exist", ->
 		#assert
 		expect(marktab.parseNotes).toBeDefined

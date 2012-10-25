@@ -1,4 +1,9 @@
 describe "parseRiff", ->
+	marktab = undefined
+
+	beforeEach ->
+		marktab = new Marktab
+
 	it "Should exist", ->
 		#assert
 		expect(marktab.parseRiff).toBeDefined
