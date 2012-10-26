@@ -6,7 +6,7 @@ describe "parseNotes", ->
 
 	it "Should exist", ->
 		#assert
-		expect(marktab.parseNotes).toBeDefined
+		expect(marktab.parseNotes).toEqualDefined
 	
 	it "Should convert a single note to json", ->
 		# arrange
@@ -16,7 +16,7 @@ describe "parseNotes", ->
 		result = marktab.parseNotes note
 
 		# assert
-		expect(result).toBe({1:[1]})
+		expect(result).toEqual({1:[1]})
 
 	it "Should convert multiple notes to json", ->
 		# arrange
@@ -26,7 +26,7 @@ describe "parseNotes", ->
 		result = marktab.parseNotes notes
 
 		# assert
-		expect(result).toBe({1:[null,null,7], 5:[null,1], 6:[12]})
+		expect(result).toEqual({1:[undefined,undefined,7], 5:[undefined,1], 6:[12]})
 
 	it "Should convert rest to json", ->
 		# arrange
@@ -36,7 +36,7 @@ describe "parseNotes", ->
 		result = marktab.parseNotes notes
 
 		#assert
-		expect(result).toBe({1:[1, null, 1]})
+		expect(result).toEqual({1:[1, undefined, 1]})
 
 	it "Should convert hammer-on to json", ->
 		# arrange
@@ -46,7 +46,7 @@ describe "parseNotes", ->
 		result = marktab.parseNotes notes
 
 		#assert
-		expect(result).toBe({1:[1, 'h', 2]})		
+		expect(result).toEqual({1:[1, 'h', 2]})		
 
 	it "Should convert pull-off to json", ->
 		# arrange
@@ -56,7 +56,7 @@ describe "parseNotes", ->
 		result = marktab.parseNotes notes
 
 		#assert
-		expect(result).toBe({4:[10, 'p', 9]})		
+		expect(result).toEqual({4:[10, 'p', 9]})		
 
 	it "Should convert slide-up to json", ->
 		# arrange
@@ -66,7 +66,7 @@ describe "parseNotes", ->
 		result = marktab.parseNotes notes
 
 		#assert
-		expect(result).toBe({3:[10, '/', 11]})	
+		expect(result).toEqual({3:[10, '/', 11]})	
 
 	it "Should convert slide-down to json", ->
 		# arrange
@@ -76,4 +76,4 @@ describe "parseNotes", ->
 		result = marktab.parseNotes notes
 
 		#assert
-		expect(result).toBe({2:[6, '\\', 3]})
+		expect(result).toEqual({2:[6, '\\', 3]})

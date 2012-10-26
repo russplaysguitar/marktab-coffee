@@ -13,11 +13,22 @@ class Marktab
 
 	# top-level parser. delegates to other parse functions.
 	parse: (input) ->
-		""
+		notePattern = /[0-9]:[0-9]/
+		if notePattern.test(input) 
+			this.parseJson(this.parseNotes(input))
+		@lines
 
 	# parses marktab notes into json
-	parseNotes: (notes) ->
-		""
+	parseNotes: (notesLine) ->
+		json = {}
+		notes = notesLine.split(" ")
+		for note, i in notes
+			stringAndFret = note.split(":")
+			string = stringAndFret[0]
+			fret = stringAndFret[1]
+			json[string] ?= []
+			json[string][i] = parseInt(fret, 10) 
+		json
 
 	# parses marktab chords into json
 	parseChord: (chord) ->
