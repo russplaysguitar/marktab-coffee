@@ -19,6 +19,7 @@ class Marktab
 		pullOffPattern = /p/
 		slideUpPattern = /\//
 		slideDownPattern = /\\/
+		chordPattern = /\(([0-9]:[0-9])+\)/
 		lines = input.split("\n")
 		for line in lines
 			parts = line.split(" ")
@@ -26,30 +27,38 @@ class Marktab
 			for part, i in parts
 				jsonPart = {}
 				if part.match(notePattern) 
+					# note
 					jsonPart = this.parseNotes(part, i)
 					lastString = parseInt(_.keys(jsonPart), 10)
 				else if part.match(restPattern)
 					# rest
 				else if part.match(hammerPattern)
+					# hammer-on
 					if !lastString
 						throw "invalid hammer-on"
 					jsonPart[lastString] = []
 					jsonPart[lastString][i] = "h"
 				else if part.match(pullOffPattern)
+					# pull-off
 					if !lastString
 						throw "invalid pull-off"
 					jsonPart[lastString] = []
 					jsonPart[lastString][i] = "p"
 				else if part.match(slideUpPattern)
+					# slide-up
 					if !lastString
 						throw "invalid slide-up"
 					jsonPart[lastString] = []
 					jsonPart[lastString][i] = "/"
 				else if part.match(slideDownPattern)
+					# slide-down
 					if !lastString
 						throw "invalid slide-down"
 					jsonPart[lastString] = []
 					jsonPart[lastString][i] = "\\"
+				else if part.match(chordPattern)
+					# chord
+					jsonPart = this.parseChord(part, i)
 				else
 					throw "unknown pattern: " + part
 				this.mergeMaps(json, jsonPart)
@@ -57,6 +66,7 @@ class Marktab
 			this.parseJson(json)
 		json
 
+	# merges two tabMaps together, with the source overwriting the destination
 	mergeMaps: (dest, source) ->
 		for stringNum, stringNotes of source
 			for fret, i in stringNotes
@@ -66,6 +76,7 @@ class Marktab
 				if fret?
 					dest[stringNum][i] = fret
 
+	# returns a new tabMap
 	cloneTabMap: (tabMap) ->
 		result = {}
 		for stringNum, stringNotes of tabMap
@@ -86,7 +97,7 @@ class Marktab
 		result
 
 	# parses marktab chords into json
-	parseChord: (chord) ->
+	parseChord: (chord, i = 0) ->
 		""
 
 	# parses marktab riffs into json
