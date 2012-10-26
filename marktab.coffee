@@ -17,6 +17,8 @@ class Marktab
 		restPattern = /r/
 		hammerPattern = /h/
 		pullOffPattern = /p/
+		slideUpPattern = /\//
+		slideDownPattern = /\\/
 		lines = input.split("\n")
 		for line in lines
 			parts = line.split(" ")
@@ -38,6 +40,16 @@ class Marktab
 						throw "invalid pull-off"
 					jsonPart[lastString] = []
 					jsonPart[lastString][i] = "p"
+				else if part.match(slideUpPattern)
+					if !lastString
+						throw "invalid slide-up"
+					jsonPart[lastString] = []
+					jsonPart[lastString][i] = "/"
+				else if part.match(slideDownPattern)
+					if !lastString
+						throw "invalid slide-down"
+					jsonPart[lastString] = []
+					jsonPart[lastString][i] = "\\"
 				else
 					throw "unknown pattern: " + part
 				this.mergeMaps(json, jsonPart)

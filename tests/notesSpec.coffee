@@ -70,7 +70,7 @@ describe "parseNotes", ->
 
 	it "Should convert slide-down to json", ->
 		# arrange
-		notes = "2:6 \ 2:3"
+		notes = "2:6 \\ 2:3"
 
 		#act
 		result = marktab.parse notes
