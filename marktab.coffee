@@ -7,10 +7,13 @@ class Marktab
 		5: "A"
 		6: "E"
 
-	constructor: (@json = {}) ->
-		for key, val of stringDefaults
-			@json[key] ?= []
+	constructor: (@lines = []) ->
+		# @lines contains an array of parsed lines, ready to be output
 		this
+
+	# top-level parser. delegates to other parse functions.
+	parse: (input) ->
+		""
 
 	# parses marktab notes into json
 	parseNotes: (notes) ->
@@ -40,15 +43,17 @@ class Marktab
 		json
 
 	# generates tab from a json note map
-	generate: (json = @json) ->
+	generate: (json = {}) ->
 		result = ""
+		line = ""
 		this.normalizeJson(json)
 		for stringNum in [1..6]
 			notes = json[stringNum]
-			result += stringDefaults[stringNum] + "|-"
+			line = stringDefaults[stringNum] + "|-"
 			for note in notes
-				result += (note || '-') + "-"
-			result += "|\n"
+				line += (note || '-') + "-"
+			@lines.push(line)
+			result += line + "|\n"
 		result
 
 window.Marktab = Marktab

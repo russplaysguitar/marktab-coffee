@@ -16,10 +16,11 @@ describe "generator", ->
 
 	it "should make a basic tab map", ->
 		# arrange
-		marktab2 = new Marktab({6:[1]})
+		j = 
+			6: [1]
 
 		# act
-		result = marktab2.generate()
+		result = marktab.generate(j)
 		
 		# assert
 		expect(result).toBe("e|---|\nB|---|\nG|---|\nD|---|\nA|---|\nE|-1-|\n")

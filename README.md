@@ -9,13 +9,13 @@ Tests must be run from a web server context, not a file:// url.
 ### Concept
 Converts marktab to json in this format:
 
-{
-	1:[],
-	2:[],
-	3:[],
-	4:[],
-	5:[],
-	6:[]
-}
+	{
+		1:[],
+		2:[],
+		3:[],
+		4:[],
+		5:[],
+		6:[]
+	}
 
 Then generates tab from the json.
