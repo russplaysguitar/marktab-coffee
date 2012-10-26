@@ -1,11 +1,11 @@
-describe "normalizeJson", ->
+describe "normalizeTabMap", ->
 	marktab = undefined
 
 	beforeEach ->
 		marktab = new Marktab
 
 	it "should exist", ->
-		expect(marktab.normalizeJson).toBeDefined
+		expect(marktab.normalizeTabMap).toBeDefined()
 
 	it "should normalize without input", ->
 		# arrange
@@ -18,7 +18,7 @@ describe "normalizeJson", ->
 			6: []
 
 		# act
-		actual = marktab.normalizeJson()
+		actual = marktab.normalizeTabMap()
 
 		# assert
 		expect(actual).toEqual(expected)
@@ -36,7 +36,7 @@ describe "normalizeJson", ->
 			6: [1]
 
 		# act
-		actual = marktab.normalizeJson(input)
+		actual = marktab.normalizeTabMap(input)
 
 		# assert
 		expect(actual).toEqual(expected)
@@ -55,7 +55,7 @@ describe "normalizeJson", ->
 			6: [undefined, undefined, undefined]	
 
 		# act
-		actual = marktab.normalizeJson(input)
+		actual = marktab.normalizeTabMap(input)
 
 		# assert
 		expect(actual).toEqual(expected)		

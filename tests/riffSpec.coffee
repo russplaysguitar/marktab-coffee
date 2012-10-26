@@ -6,7 +6,7 @@ describe "parseRiff", ->
 
 	it "Should exist", ->
 		#assert
-		expect(marktab.parseRiff).toBeDefined
+		expect(marktab.parseRiff).toBeDefined()
 
 	it "Should parse a single note riff", ->
 		# arrange

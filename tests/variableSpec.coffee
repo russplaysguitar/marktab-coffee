@@ -6,7 +6,7 @@ describe "parseVariable", ->
 
 	it "Should exist", ->
 		# assert
-		expect(marktab.parseVariable).toBeDefined
+		expect(marktab.parseVariable).toBeDefined()
 
 	it "Should convert chord to json", ->
 		# arrange

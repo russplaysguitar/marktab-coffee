@@ -23,58 +23,59 @@ class Marktab
 		lines = input.split("\n")
 		for line in lines
 			parts = line.split(" ")
-			json = {}
+			tabMap = {}
 			for part, i in parts
-				jsonPart = {}
+				tabMapPart = {}
 				if part.match(notePattern) 
 					# note
-					jsonPart = this.parseNotes(part)
-					lastString = parseInt(_.keys(jsonPart), 10)
+					tabMapPart = this.parseNotes(part)
+					lastString = parseInt(_.keys(tabMapPart), 10)
 				else if part.match(restPattern)
 					# rest
-					jsonPart = {1: [undefined]}
+					tabMapPart = {1: [undefined]}
 				else if part.match(hammerPattern)
 					# hammer-on
 					if !lastString
 						throw "invalid hammer-on"
-					jsonPart[lastString] = []
-					jsonPart[lastString][i] = "h"
+					tabMapPart[lastString] = []
+					tabMapPart[lastString][i] = "h"
 				else if part.match(pullOffPattern)
 					# pull-off
 					if !lastString
 						throw "invalid pull-off"
-					jsonPart[lastString] = []
-					jsonPart[lastString][i] = "p"
+					tabMapPart[lastString] = []
+					tabMapPart[lastString][i] = "p"
 				else if part.match(slideUpPattern)
 					# slide-up
 					if !lastString
 						throw "invalid slide-up"
-					jsonPart[lastString] = []
-					jsonPart[lastString][i] = "/"
+					tabMapPart[lastString] = []
+					tabMapPart[lastString][i] = "/"
 				else if part.match(slideDownPattern)
 					# slide-down
 					if !lastString
 						throw "invalid slide-down"
-					jsonPart[lastString] = []
-					jsonPart[lastString][i] = "\\"
+					tabMapPart[lastString] = []
+					tabMapPart[lastString][i] = "\\"
 				else if part.match(chordPattern)
 					# chord
-					jsonPart = this.parseChord(part)
+					tabMapPart = this.parseChord(part)
 				else
 					throw "unknown pattern: " + part
-				this.addFrame(json, jsonPart)
-			this.parseJson(json)
-		json
+				this.addFrame(tabMap, tabMapPart)
+			this.parseTabMap(tabMap)
+		tabMap
 
 	# adds another frame to a tabMap
-	addFrame: (json, frame) ->
-		idx = this.longestString(json)
+	addFrame: (tabMap, frame) ->
+		idx = this.longestString(tabMap)
 		for stringNum, stringNotes of frame
 			for fret, i in stringNotes
-				json[stringNum] ?= []
-				json[stringNum][idx] = fret
-		json
+				tabMap[stringNum] ?= []
+				tabMap[stringNum][idx] = fret
+		tabMap
 
+	# returns the length of the longest string in the tabMap
 	longestString: (tabMap = {}) ->
 		max = 0
 		for stringNum, stringNotes of tabMap
@@ -101,7 +102,7 @@ class Marktab
 				result[stringNum][i] = fret
 		result
 
-	# parses marktab note into json
+	# parses marktab note into tabMap
 	# example: parseNotes("5:6", 2) => { 5: [undefined, 6] }
 	parseNotes: (note) ->
 		result = {}
@@ -112,31 +113,31 @@ class Marktab
 		result[string][0] = parseInt(fret, 10) 
 		result
 
-	# parses marktab chords into json
+	# parses marktab chords into tabMap
 	parseChord: (chord) ->
 		""
 
-	# parses marktab riffs into json
+	# parses marktab riffs into tabMap
 	parseRiff: (riff) ->
 		""
 
-	# parses marktab variables into json
+	# parses marktab variables into tabMap
 	parseVariable: (variable) ->
 		""
 
 	# makes each string's notes array the same length
-	normalizeJson: (json = {}) ->
-		result = this.cloneTabMap(json)
-		max = this.longestString(json)
+	normalizeTabMap: (tabMap = {}) ->
+		result = this.cloneTabMap(tabMap)
+		max = this.longestString(tabMap)
 		for stringNum in [1..6]
 			result[stringNum] ?= []
 			result[stringNum][max-1] ?= undefined if max > 0
 		result
 
-	# parses json note map into lines, which are kept at state
-	parseJson: (json = {}) ->
+	# parses tabMap note map into lines, which are kept at state
+	parseTabMap: (tabMap = {}) ->
 		line = ""
-		tabMap = this.normalizeJson(json)
+		tabMap = this.normalizeTabMap(tabMap)
 		for stringNum in [1..6]
 			notes = tabMap[stringNum]
 			line = stringDefaults[stringNum] + "|-"

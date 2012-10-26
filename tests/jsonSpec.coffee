@@ -1,11 +1,11 @@
-describe "parseJson", ->
+describe "parseTabMap", ->
 	marktab = undefined
 
 	beforeEach ->
 		marktab = new Marktab
 
 	it "should exist", ->
-		expect(marktab.parseJson).toBeDefined
+		expect(marktab.parseTabMap).toBeDefined()
 
 	it "should parse to empty tab lines", ->
 		# arrange
@@ -19,7 +19,7 @@ describe "parseJson", ->
 		]
 
 		# act
-		actual = marktab.parseJson()
+		actual = marktab.parseTabMap()
 
 		# assert
 		expect(actual).toEqual(expected)
@@ -39,7 +39,7 @@ describe "parseJson", ->
 		]
 
 		# act
-		actual = marktab.parseJson(input)
+		actual = marktab.parseTabMap(input)
 
 		# assert
 		expect(actual).toEqual(expected)
