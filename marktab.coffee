@@ -55,4 +55,11 @@ class Marktab
 			@lines.push(line)
 		@lines
 
+	# simply returns @lines concatenated into a string with newlines (\n)
+	generateTab: ->
+		result = ""
+		for line in @lines
+			result += line + "\n"
+		result
+
 window.Marktab = Marktab
