@@ -16,4 +16,4 @@ describe "parseChord", ->
 		result = marktab.parseChord chord
 
 		# assert
-		expect(result).toBe({3:[9], 4:[9], 5:[7]})	
+		expect(result).toEqual({3:[9], 4:[9], 5:[7]})	

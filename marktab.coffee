@@ -1,4 +1,5 @@
 class Marktab
+	# private instance variables
 	stringDefaults = 
 		1: "e"
 		2: "B"
@@ -6,20 +7,20 @@ class Marktab
 		4: "D"
 		5: "A"
 		6: "E"
-
+	notePattern = /[0-9]:[0-9]/
+	restPattern = /r/
+	hammerPattern = /h/
+	pullOffPattern = /p/
+	slideUpPattern = /\//
+	slideDownPattern = /\\/
+	chordPattern = /\(([0-9]:[0-9])+\)/
+	
 	constructor: (@lines = []) ->
 		# @lines contains an array of parsed lines, ready to be output
 		this
 
 	# top-level parser. delegates to other parse functions.
 	parse: (input) ->
-		notePattern = /[0-9]:[0-9]/
-		restPattern = /r/
-		hammerPattern = /h/
-		pullOffPattern = /p/
-		slideUpPattern = /\//
-		slideDownPattern = /\\/
-		chordPattern = /\(([0-9]:[0-9])+\)/
 		lines = input.split("\n")
 		for line in lines
 			parts = line.split(" ")
@@ -84,11 +85,9 @@ class Marktab
 		max
 	
 	# merges two tabMaps together, with the source overwriting the destination
-	mergeMaps: (dest, source) ->
+	mergeTabMaps: (dest, source) ->
 		for stringNum, stringNotes of source
 			for fret, i in stringNotes
-				# if dest[stringNum] and fret?
-					# throw "cannot redefine:" + stringNum + ":" + fret
 				dest[stringNum] ?= []
 				if fret?
 					dest[stringNum][i] = fret
@@ -102,8 +101,8 @@ class Marktab
 				result[stringNum][i] = fret
 		result
 
-	# parses marktab note into tabMap
-	# example: parseNotes("5:6", 2) => { 5: [undefined, 6] }
+	# parses marktab note into a single tabMap frame
+	# example: parseNotes("5:6") => { 5: [6] }
 	parseNotes: (note) ->
 		result = {}
 		stringAndFret = note.split(":")
@@ -114,8 +113,14 @@ class Marktab
 		result
 
 	# parses marktab chords into tabMap
+	# example: parseChord("(6:8 5:6)") => { 5:[6], 6:[8] }
 	parseChord: (chord) ->
-		""
+		result = {}
+		notesString = chord.substr(1, chord.length-2)
+		notes = notesString.split(" ")
+		for note in notes
+			this.mergeTabMaps(result, this.parseNotes(note))
+		result
 
 	# parses marktab riffs into tabMap
 	parseRiff: (riff) ->
@@ -134,7 +139,7 @@ class Marktab
 			result[stringNum][max-1] ?= undefined if max > 0
 		result
 
-	# parses tabMap note map into lines, which are kept at state
+	# parses a json note map into lines, which are kept in instance state
 	parseTabMap: (tabMap = {}) ->
 		line = ""
 		tabMap = this.normalizeTabMap(tabMap)
