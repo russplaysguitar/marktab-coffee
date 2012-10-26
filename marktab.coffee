@@ -28,10 +28,11 @@ class Marktab
 				jsonPart = {}
 				if part.match(notePattern) 
 					# note
-					jsonPart = this.parseNotes(part, i)
+					jsonPart = this.parseNotes(part)
 					lastString = parseInt(_.keys(jsonPart), 10)
 				else if part.match(restPattern)
 					# rest
+					jsonPart = {1: [undefined]}
 				else if part.match(hammerPattern)
 					# hammer-on
 					if !lastString
@@ -58,14 +59,29 @@ class Marktab
 					jsonPart[lastString][i] = "\\"
 				else if part.match(chordPattern)
 					# chord
-					jsonPart = this.parseChord(part, i)
+					jsonPart = this.parseChord(part)
 				else
 					throw "unknown pattern: " + part
-				this.mergeMaps(json, jsonPart)
-				# console.log(json)
+				this.addFrame(json, jsonPart)
 			this.parseJson(json)
 		json
 
+	# adds another frame to a tabMap
+	addFrame: (json, frame) ->
+		idx = this.longestString(json)
+		for stringNum, stringNotes of frame
+			for fret, i in stringNotes
+				json[stringNum] ?= []
+				json[stringNum][idx] = fret
+		json
+
+	longestString: (tabMap = {}) ->
+		max = 0
+		for stringNum, stringNotes of tabMap
+			size = _.size(stringNotes)
+			max = size if size > max
+		max
+	
 	# merges two tabMaps together, with the source overwriting the destination
 	mergeMaps: (dest, source) ->
 		for stringNum, stringNotes of source
@@ -87,17 +103,17 @@ class Marktab
 
 	# parses marktab note into json
 	# example: parseNotes("5:6", 2) => { 5: [undefined, 6] }
-	parseNotes: (note, i = 0) ->
+	parseNotes: (note) ->
 		result = {}
 		stringAndFret = note.split(":")
 		string = stringAndFret[0]
 		fret = stringAndFret[1]
 		result[string] ?= []
-		result[string][i] = parseInt(fret, 10) 
+		result[string][0] = parseInt(fret, 10) 
 		result
 
 	# parses marktab chords into json
-	parseChord: (chord, i = 0) ->
+	parseChord: (chord) ->
 		""
 
 	# parses marktab riffs into json
@@ -111,10 +127,7 @@ class Marktab
 	# makes each string's notes array the same length
 	normalizeJson: (json = {}) ->
 		result = this.cloneTabMap(json)
-		max = 0
-		for stringNum, stringNotes of json 
-			size = _.size(stringNotes)
-			max = size if size > max
+		max = this.longestString(json)
 		for stringNum in [1..6]
 			result[stringNum] ?= []
 			result[stringNum][max-1] ?= undefined if max > 0
@@ -128,7 +141,9 @@ class Marktab
 			notes = tabMap[stringNum]
 			line = stringDefaults[stringNum] + "|-"
 			for note in notes
-				line += (note || '-') + "-"
+				line += (note || '-')
+				if note < 10 || !note
+					line += "-" 
 			line += "|"
 			@lines.push(line)
 		@lines
