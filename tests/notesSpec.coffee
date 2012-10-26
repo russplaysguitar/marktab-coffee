@@ -23,7 +23,7 @@ describe "parseNotes", ->
 		notes = "6:12 5:1 1:7"
 
 		# act
-		result = marktab.parseNotes notes
+		result = marktab.parse notes
 
 		# assert
 		expect(result).toEqual({1:[undefined,undefined,7], 5:[undefined,1], 6:[12]})
@@ -33,7 +33,7 @@ describe "parseNotes", ->
 		notes = "1:1 r 1:1"
 
 		#act
-		result = marktab.parseNotes notes
+		result = marktab.parse notes
 
 		#assert
 		expect(result).toEqual({1:[1, undefined, 1]})
@@ -43,7 +43,7 @@ describe "parseNotes", ->
 		notes = "1:1 h 1:2"
 
 		#act
-		result = marktab.parseNotes notes
+		result = marktab.parse notes
 
 		#assert
 		expect(result).toEqual({1:[1, 'h', 2]})		
@@ -53,7 +53,7 @@ describe "parseNotes", ->
 		notes = "4:10 p 4:9"
 
 		#act
-		result = marktab.parseNotes notes
+		result = marktab.parse notes
 
 		#assert
 		expect(result).toEqual({4:[10, 'p', 9]})		
@@ -63,7 +63,7 @@ describe "parseNotes", ->
 		notes = "3:10 / 3:11"
 
 		#act
-		result = marktab.parseNotes notes
+		result = marktab.parse notes
 
 		#assert
 		expect(result).toEqual({3:[10, '/', 11]})	
@@ -73,7 +73,7 @@ describe "parseNotes", ->
 		notes = "2:6 \ 2:3"
 
 		#act
-		result = marktab.parseNotes notes
+		result = marktab.parse notes
 
 		#assert
 		expect(result).toEqual({2:[6, '\\', 3]})
