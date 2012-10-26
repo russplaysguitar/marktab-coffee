@@ -39,12 +39,11 @@ class Marktab
 			max = size if size > max
 		for stringNum in [1..6]
 			json[stringNum] ?= []
-			json[stringNum][max-1] ?= undefined		
+			json[stringNum][max-1] ?= undefined if max > 0
 		json
 
-	# generates tab from a json note map
-	generate: (json = {}) ->
-		result = ""
+	# parses json note map into lines, which are kept at state
+	parseJson: (json = {}) ->
 		line = ""
 		this.normalizeJson(json)
 		for stringNum in [1..6]
@@ -52,8 +51,8 @@ class Marktab
 			line = stringDefaults[stringNum] + "|-"
 			for note in notes
 				line += (note || '-') + "-"
+			line += "|"
 			@lines.push(line)
-			result += line + "|\n"
-		result
+		@lines
 
 window.Marktab = Marktab
