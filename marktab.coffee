@@ -1,6 +1,6 @@
 class Marktab
 	# private instance variables
-	stringDefaults = 
+	stringNameDefaults = 
 		1: "e"
 		2: "B"
 		3: "G"
@@ -16,7 +16,7 @@ class Marktab
 	chordPattern = /\(([0-9]:[0-9])+\)/
 	riffPattern = /\[[0-9]:[0-9]\s[0-9rhp\/\\]+\]/
 	
-	constructor: (@lines = []) ->
+	constructor: (@lines = [], @stringNames = stringNameDefaults) ->
 		# @lines contains an array of parsed lines, ready to be output
 		this
 
@@ -160,7 +160,7 @@ class Marktab
 		tabMap = this.normalizeTabMap(tabMap)
 		for stringNum in [1..6]
 			notes = tabMap[stringNum]
-			line = stringDefaults[stringNum] + "|-"
+			line = @stringNames[stringNum] + "|-"
 			for note in notes
 				line += (note || '-')
 				if note < 10 || !note
