@@ -15,13 +15,13 @@ module.exports = function(grunt) {
         src : 'tests/*.coffee',
         dest : 'spec/javascripts'
       },
-      plugin : {
+      project : {
         src : '*.coffee',
         dest : 'js'
       }
     },
     jasmine : {
-      src : ['js/libs/**/*.js', 'js/*[^(min)].js', 'spec/javascripts/libs/**/*.js'],
+      src : ['libs/underscore-min.js', 'js/*[^(min)].js'],
       specs : 'spec/javascripts/**/*.js'
     },
     // watch : {
