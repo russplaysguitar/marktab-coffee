@@ -8,13 +8,14 @@ class Marktab
 		5: "A"
 		6: "E"
 	notePattern = /[0-9]:[0-9]/
+	singleNotePattern = /[0-9]/
 	restPattern = /r/
 	hammerPattern = /h/
 	pullOffPattern = /p/
 	slideUpPattern = /\//
 	slideDownPattern = /\\/
 	chordPattern = /\(([0-9]:[0-9])+\)/
-	riffPattern = /\[[0-9]:[0-9]\s[0-9rhp\/\\]+\]/
+	riffPattern = /\[.*\]/
 	
 	constructor: (@lines = [], @stringNames = stringNameDefaults) ->
 		# @lines contains an array of parsed lines, ready to be output
@@ -35,6 +36,12 @@ class Marktab
 				else if part.match(restPattern)
 					# rest
 					tabMapPart = {1: [undefined]}
+				else if part.match(singleNotePattern)
+					# single note
+					if !lastString
+						throw "invalid single note"
+					tabMapPart[lastString] = []
+					tabMapPart[lastString][i] = parseInt(part, 10)
 				else if part.match(hammerPattern)
 					# hammer-on
 					if !lastString
@@ -65,6 +72,8 @@ class Marktab
 				else if part.match(riffPattern)
 					# riff
 					tabMapPart = this.parseRiff(part)
+					# this.mergeTabMaps(tabMap, tabMapPart)
+					# continue
 				else
 					throw "unknown pattern: " + part
 				this.addFrame(tabMap, tabMapPart)
@@ -129,18 +138,10 @@ class Marktab
 	# parses marktab riffs into tabMap
 	# example: parseRiff("[1:1 2 h 3 r 7 p 5]") => { 1:[1, 2, 'h', 3, 'r', 7, 'p', 5] }
 	parseRiff: (riff) ->
-		result = {}
 		riffLine = riff.substr(1, riff.length-2)# remove brackets
-		string = riffLine.split(":")[0]
-		notesLine = riffLine.split(":")[1]
-		notes = notesLine.split(" ")
-		result[string] = []
-		for note, i in notes
-			note = parseInt(note, 10) if parseInt(note, 10)# convert string to int
-			note = undefined if note is 'r'
-			result[string][i] = note
-		result
-
+		m = new Marktab
+		m.parse(riffLine)
+		
 	# parses marktab variables into tabMap
 	parseVariable: (variable) ->
 		""

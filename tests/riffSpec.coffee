@@ -26,7 +26,7 @@ describe "parseRiff", ->
 		result = marktab.parseRiff riff
 
 		# assert
-		expect(result).toEqual({1:[undefined,2], 6:[10]})
+		expect(result).toEqual({1:[2], 6:[undefined,10]})
 
 	it "Should parse riff with multiple same-line notes", ->
 		# arrange
