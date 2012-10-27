@@ -14,7 +14,8 @@ class Marktab
 	pullOffPattern = /p/
 	slideUpPattern = /\//
 	slideDownPattern = /\\/
-	chordPattern = /\(([0-9]:[0-9])+\)/
+	chordStart = /\(/
+	chordEnd = /\)/
 	riffPattern = /\[.*\]/
 	
 	constructor: (@lines = [], @stringNames = stringNameDefaults) ->
@@ -25,23 +26,22 @@ class Marktab
 	parse: (input) ->
 		lines = input.split("\n")
 		for line in lines
-			parts = line.split(" ")
+			chars = line.split("")
 			tabMap = {}
-			for part, i in parts
+			for char, i in chars
 				tabMapPart = {}
-				if part.match(notePattern) 
+				if char.match(chordStart)
+					# chord
+					#TODO fix this up and make it work. need to increment i to chordEndIdx?
+					part = this.chomp(line, i+1, chordEnd)
+					tabMapPart = this.parseChord(part)
+				else if part.match(notePattern) 
 					# note
 					tabMapPart = this.parseNotes(part)
 					lastString = parseInt(_.keys(tabMapPart), 10)
 				else if part.match(restPattern)
 					# rest
 					tabMapPart = {1: [undefined]}
-				else if part.match(singleNotePattern)
-					# single note
-					if !lastString
-						throw "invalid single note"
-					tabMapPart[lastString] = []
-					tabMapPart[lastString][i] = parseInt(part, 10)
 				else if part.match(hammerPattern)
 					# hammer-on
 					if !lastString
@@ -66,9 +66,12 @@ class Marktab
 						throw "invalid slide-down"
 					tabMapPart[lastString] = []
 					tabMapPart[lastString][i] = "\\"
-				else if part.match(chordPattern)
-					# chord
-					tabMapPart = this.parseChord(part)
+				else if part.match(singleNotePattern)
+					# single note
+					if !lastString
+						throw "invalid single note"
+					tabMapPart[lastString] = []
+					tabMapPart[lastString][i] = parseInt(part, 10)
 				else if part.match(riffPattern)
 					# riff
 					tabMapPart = this.parseRiff(part)
@@ -79,6 +82,13 @@ class Marktab
 				this.addFrame(tabMap, tabMapPart)
 			this.parseTabMap(tabMap)
 		tabMap
+
+	# 
+	chomp: (line, from, stopChar) ->
+		lineArray = line.split("")
+		restOfLine = _.rest(lineArray, from)
+		stopIdx = _.indexOf(restOfLine, stopChar)
+		line.substr(from, stopIdx)
 
 	# adds another frame to a tabMap
 	addFrame: (tabMap, frame) ->
@@ -117,6 +127,7 @@ class Marktab
 	# parses marktab note into a single tabMap frame
 	# example: parseNotes("5:6") => { 5: [6] }
 	parseNotes: (note) ->
+		console.log(note)
 		result = {}
 		stringAndFret = note.split(":")
 		string = stringAndFret[0]
@@ -128,6 +139,7 @@ class Marktab
 	# parses marktab chords into tabMap
 	# example: parseChord("(6:8 5:6)") => { 5:[6], 6:[8] }
 	parseChord: (chord) ->
+		console.log(chord)
 		result = {}
 		notesLine = chord.substr(1, chord.length-2)# remove parenthesis
 		notes = notesLine.split(" ")
