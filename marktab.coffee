@@ -26,14 +26,12 @@ class Marktab
 	parse: (input) ->
 		lines = input.split("\n")
 		for line in lines
-			chars = line.split("")
+			parts = line.split(" ")
 			tabMap = {}
-			for char, i in chars
+			for part, i in parts
 				tabMapPart = {}
-				if char.match(chordStart)
+				if part.match(chordStart)
 					# chord
-					#TODO fix this up and make it work. need to increment i to chordEndIdx?
-					part = this.chomp(line, i+1, chordEnd)
 					tabMapPart = this.parseChord(part)
 				else if part.match(notePattern) 
 					# note
