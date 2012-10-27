@@ -1,6 +1,5 @@
 .DS_Store
-.js
+grunt.js
 node_modules
-js
-spec
 _SpecRunner.html
+bin/*
