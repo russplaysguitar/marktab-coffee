@@ -16,4 +16,4 @@ describe "parseVariable", ->
 		result = marktab.parseVariable variable
 
 		# assert
-		#expect(result).toBe({1:[1], 2:[2]})
+		expect(result).toBe({1:[1], 2:[2]})
