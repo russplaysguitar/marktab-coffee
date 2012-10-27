@@ -1,2 +1,6 @@
 .DS_Store
 .js
+node_modules
+js
+spec
+_SpecRunner.html
