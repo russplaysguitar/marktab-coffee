@@ -13,16 +13,16 @@ module.exports = function(grunt) {
     coffee : {
       specs : {
         src : 'tests/*.coffee',
-        dest : 'spec/javascripts'
+        dest : 'bin/spec/javascripts'
       },
       project : {
         src : '*.coffee',
-        dest : 'js'
+        dest : 'bin/js'
       }
     },
     jasmine : {
-      src : ['libs/underscore-min.js', 'js/*[^(min)].js'],
-      specs : 'spec/javascripts/**/*.js'
+      src : ['libs/underscore-min.js', 'bin/js/*[^(min)].js'],
+      specs : 'bin/spec/javascripts/**/*.js'
     },
     // watch : {
     //   files: ['<config:coffee.helpers.src>', '<config:coffee.specs.src>', '<config:coffee.plugin.src>'],
