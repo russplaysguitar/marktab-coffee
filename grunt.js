@@ -16,7 +16,7 @@ module.exports = function(grunt) {
         dest : 'bin/spec/javascripts'
       },
       project : {
-        src : '*.coffee',
+        src : 'src/*.coffee',
         dest : 'bin/js'
       }
     },
