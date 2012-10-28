@@ -1,5 +1,5 @@
 # markdown-coffee
-[![Build Status](https://travis-ci.org/[russplaysguitar]/[marktab-coffee].png)](https://travis-ci.org/[russplaysguitar]/[marktab-coffee])
+[![Build Status](https://travis-ci.org/russplaysguitar/marktab-coffee.png)](https://travis-ci.org/russplaysguitar/marktab-coffee)
 
 ### Overview
 A [MarkTab](https://github.com/cknadler/marktab) parser written in CoffeeScript. Note: This is a different parser implementation than the original.
