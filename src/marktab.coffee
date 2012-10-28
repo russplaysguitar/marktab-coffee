@@ -14,8 +14,7 @@ class Marktab
 	pullOffPattern = /p/
 	slideUpPattern = /\//
 	slideDownPattern = /\\/
-	chordStart = /\(/
-	chordEnd = /\)/
+	chordPattern = /\([0-9\s:]+\)/
 	riffPattern = /\[.*\]/
 	
 	constructor: (@lines = [], @stringNames = stringNameDefaults) ->
@@ -24,61 +23,69 @@ class Marktab
 
 	# top-level parser. delegates to other parse functions.
 	parse: (input) ->
-		lines = input.split("\n")
-		for line in lines
-			parts = line.split(" ")
-			tabMap = {}
-			for part, i in parts
-				tabMapPart = {}
-				if part.match(chordStart)
-					# chord
-					tabMapPart = this.parseChord(part)
-				else if part.match(notePattern) 
-					# note
-					tabMapPart = this.parseNotes(part)
-					lastString = parseInt(_.keys(tabMapPart), 10)
-				else if part.match(restPattern)
-					# rest
-					tabMapPart = {1: [undefined]}
-				else if part.match(hammerPattern)
-					# hammer-on
-					if !lastString
-						throw "invalid hammer-on"
-					tabMapPart[lastString] = []
-					tabMapPart[lastString][i] = "h"
-				else if part.match(pullOffPattern)
-					# pull-off
-					if !lastString
-						throw "invalid pull-off"
-					tabMapPart[lastString] = []
-					tabMapPart[lastString][i] = "p"
-				else if part.match(slideUpPattern)
-					# slide-up
-					if !lastString
-						throw "invalid slide-up"
-					tabMapPart[lastString] = []
-					tabMapPart[lastString][i] = "/"
-				else if part.match(slideDownPattern)
-					# slide-down
-					if !lastString
-						throw "invalid slide-down"
-					tabMapPart[lastString] = []
-					tabMapPart[lastString][i] = "\\"
-				else if part.match(singleNotePattern)
-					# single note
-					if !lastString
-						throw "invalid single note"
-					tabMapPart[lastString] = []
-					tabMapPart[lastString][i] = parseInt(part, 10)
-				else if part.match(riffPattern)
-					# riff
-					tabMapPart = this.parseRiff(part)
-					# this.mergeTabMaps(tabMap, tabMapPart)
-					# continue
-				else
-					throw "unknown pattern: " + part
-				this.addFrame(tabMap, tabMapPart)
-			this.parseTabMap(tabMap)
+		tabMap = {}
+		i = 0
+		while i < input.length
+			part = input.substr(i, input.length-i)# get rest of line
+			tabMapPart = {}
+			if part.search(chordPattern) is 0
+				# chord
+				i += part.match(chordPattern).length
+				tabMapPart = this.parseChord(part)
+			else if part.search(notePattern) is 0
+				# note
+				i += part.match(notePattern).length
+				tabMapPart = this.parseNotes(part)
+				lastString = parseInt(_.keys(tabMapPart), 10)
+			else if part.search(restPattern) is 0
+				# rest
+				i += part.match(restPattern).length
+				tabMapPart = {1: [undefined]}
+			else if part.search(hammerPattern) is 0
+				# hammer-on
+				if !lastString
+					throw "invalid hammer-on"
+				i += part.match(hammerPattern).length
+				tabMapPart[lastString] = []
+				tabMapPart[lastString][i] = "h"
+			else if part.search(pullOffPattern) is 0
+				# pull-off
+				if !lastString
+					throw "invalid pull-off"
+				i += part.match(pullOffPattern).length
+				tabMapPart[lastString] = []
+				tabMapPart[lastString][i] = "p"
+			else if part.search(slideUpPattern) is 0
+				# slide-up
+				if !lastString
+					throw "invalid slide-up"
+				i += part.match(sliceUpPattern).length
+				tabMapPart[lastString] = []
+				tabMapPart[lastString][i] = "/"
+			else if part.search(slideDownPattern) is 0
+				# slide-down
+				if !lastString
+					throw "invalid slide-down"
+				i += part.match(slideDownPattern).length
+				tabMapPart[lastString] = []
+				tabMapPart[lastString][i] = "\\"
+			else if part.search(singleNotePattern) is 0
+				# single note
+				if !lastString
+					throw "invalid single note"
+				i += part.match(singleNotePattern).length
+				tabMapPart[lastString] = []
+				tabMapPart[lastString][i] = parseInt(part, 10)
+			else if part.search(riffPattern) is 0
+				# riff
+				i += part.match(riffPattern).length
+				tabMapPart = this.parseRiff(part)
+				# this.mergeTabMaps(tabMap, tabMapPart)
+				# continue
+			else
+				throw "unknown pattern: " + part
+			this.addFrame(tabMap, tabMapPart)	
+		this.parseTabMap(tabMap)
 		tabMap
 
 	# 
