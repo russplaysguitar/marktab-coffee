@@ -7,8 +7,8 @@ class Marktab
 		4: "D"
 		5: "A"
 		6: "E"
-	notePattern = /[0-9]:[0-9]/
-	singleNotePattern = /[0-9]/
+	notePattern = /[0-9]+:[0-9]+/
+	singleNotePattern = /[0-9]+/
 	restPattern = /r/
 	hammerPattern = /h/
 	pullOffPattern = /p/
@@ -16,6 +16,7 @@ class Marktab
 	slideDownPattern = /\\/
 	chordPattern = /\([0-9\s:]+\)/
 	riffPattern = /\[.*\]/
+	ignorePattern = /[\s\n]/
 	
 	constructor: (@lines = [], @stringNames = stringNameDefaults) ->
 		# @lines contains an array of parsed lines, ready to be output
@@ -28,57 +29,71 @@ class Marktab
 		while i < input.length
 			part = input.substr(i, input.length-i)# get rest of line
 			tabMapPart = {}
-			if part.search(chordPattern) is 0
+			if part.search(ignorePattern) is 0
+				# ignore
+				part = part.match(ignorePattern)[0]
+				i += part.length
+				continue
+			else if part.search(chordPattern) is 0
 				# chord
-				i += part.match(chordPattern).length
+				part = part.match(chordPattern)[0]
+				i += part.length
 				tabMapPart = this.parseChord(part)
 			else if part.search(notePattern) is 0
 				# note
-				i += part.match(notePattern).length
+				part = part.match(notePattern)[0]
+				i += part.length
 				tabMapPart = this.parseNotes(part)
 				lastString = parseInt(_.keys(tabMapPart), 10)
 			else if part.search(restPattern) is 0
 				# rest
-				i += part.match(restPattern).length
-				tabMapPart = {1: [undefined]}
+				part = part.match(restPattern)[0]
+				i += part.length
+				tabMapPart[lastString || 1] = [undefined]
 			else if part.search(hammerPattern) is 0
 				# hammer-on
 				if !lastString
 					throw "invalid hammer-on"
-				i += part.match(hammerPattern).length
+				part = part.match(hammerPattern)[0]
+				i += part.length
 				tabMapPart[lastString] = []
 				tabMapPart[lastString][i] = "h"
 			else if part.search(pullOffPattern) is 0
 				# pull-off
 				if !lastString
 					throw "invalid pull-off"
-				i += part.match(pullOffPattern).length
+				part = part.match(pullOffPattern)[0]
+				i += part.length
 				tabMapPart[lastString] = []
 				tabMapPart[lastString][i] = "p"
 			else if part.search(slideUpPattern) is 0
 				# slide-up
 				if !lastString
 					throw "invalid slide-up"
-				i += part.match(sliceUpPattern).length
+				part = part.match(slideUpPattern)[0]
+				i += part.length
 				tabMapPart[lastString] = []
 				tabMapPart[lastString][i] = "/"
 			else if part.search(slideDownPattern) is 0
 				# slide-down
 				if !lastString
 					throw "invalid slide-down"
-				i += part.match(slideDownPattern).length
+				part = part.match(slideDownPattern)[0]
+				i += part.length
 				tabMapPart[lastString] = []
 				tabMapPart[lastString][i] = "\\"
 			else if part.search(singleNotePattern) is 0
 				# single note
 				if !lastString
 					throw "invalid single note"
-				i += part.match(singleNotePattern).length
+				part = part.match(singleNotePattern)[0]
+				i += part.length
 				tabMapPart[lastString] = []
 				tabMapPart[lastString][i] = parseInt(part, 10)
 			else if part.search(riffPattern) is 0
 				# riff
-				i += part.match(riffPattern).length
+				part = part.match(riffPattern)[0]
+				i += part.length
 				tabMapPart = this.parseRiff(part)
 				# this.mergeTabMaps(tabMap, tabMapPart)
 				# continue
@@ -132,7 +147,6 @@ class Marktab
 	# parses marktab note into a single tabMap frame
 	# example: parseNotes("5:6") => { 5: [6] }
 	parseNotes: (note) ->
-		console.log(note)
 		result = {}
 		stringAndFret = note.split(":")
 		string = stringAndFret[0]
@@ -144,7 +158,6 @@ class Marktab
 	# parses marktab chords into tabMap
 	# example: parseChord("(6:8 5:6)") => { 5:[6], 6:[8] }
 	parseChord: (chord) ->
-		console.log(chord)
 		result = {}
 		notesLine = chord.substr(1, chord.length-2)# remove parenthesis
 		notes = notesLine.split(" ")
