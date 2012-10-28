@@ -17,6 +17,10 @@ class Marktab
 	chordPattern = /\([0-9\s:]+\)/
 	riffPattern = /\[.*\]/
 	ignorePattern = /[\s\n]/
+	setVariablePattern = /[\w0-9\-]+:\s*[\(\[].*[\)\]]/
+	variablePattern = /[\(\[].*[\)\]]/
+	variableNamePattern = /[\w0-9\-]+/
+	customVars = {}
 	
 	constructor: (@lines = [], @stringNames = stringNameDefaults) ->
 		# @lines contains an array of parsed lines, ready to be output
@@ -95,8 +99,17 @@ class Marktab
 				part = part.match(riffPattern)[0]
 				i += part.length
 				tabMapPart = this.parseRiff(part)
-				# this.mergeTabMaps(tabMap, tabMapPart)
-				# continue
+			else if part.search(setVariablePattern) is 0
+				# set variable
+				part = part.match(setVariablePattern)[0]
+				i += part.length
+				this.setVariable(part)
+				continue
+			else if part.search(variableNamePattern) is 0
+				# variable
+				part = part.match(variableNamePattern)[0]
+				i += part.length
+				tabMapPart = this.parseVariable(part)
 			else
 				throw "unknown pattern: " + part
 			this.addFrame(tabMap, tabMapPart)	
@@ -172,9 +185,35 @@ class Marktab
 		m = new Marktab
 		m.parse(riffLine)
 		
+	# sets marktab variables
+	# TODO: refactor this and write tests
+	setVariable: (input) ->
+		part = input
+		i = 0
+		varName = part.match(variableNamePattern)[0]
+		i += varName.length+1
+		part = input.substr(i, input.length-i)# get rest of line
+
+		# advance past ignored characters
+		while part.search(ignorePattern) is 0
+			i++
+			part = input.substr(i, input.length-i)
+
+		# parse either a riff or a chord. TODO: make this work without code duplication
+		if part.search(chordPattern) is 0
+			part = part.match(chordPattern)[0]
+			varTab = this.parseChord(part)
+		else if part.search(riffPattern) is 0
+			part = part.match(riffPattern)[0]
+			varTab = this.parseRiff(part)
+		else
+			throw "cannot set invalid variable: " + part
+		customVars[varName] = varTab # save variable info for later
+
+
 	# parses marktab variables into tabMap
-	parseVariable: (variable) ->
-		""
+	parseVariable: (variableName) ->
+		customVars[variableName]
 
 	# makes each string's notes array the same length
 	normalizeTabMap: (tabMap = {}) ->

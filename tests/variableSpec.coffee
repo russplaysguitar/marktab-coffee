@@ -6,14 +6,17 @@ describe "parseVariable", ->
 
 	it "Should exist", ->
 		# assert
+		expect(marktab.setVariable).toBeDefined()
 		expect(marktab.parseVariable).toBeDefined()
 
 	it "Should convert chord to json", ->
 		# arrange
-		variable = "myVar: (1:1 2:2)"
+		variableName = "myVar"
+		variable = variableName + ": (1:1 2:2)"
+		marktab.setVariable(variable)
 
 		# act
-		result = marktab.parseVariable variable
+		result = marktab.parseVariable variableName
 
 		# assert
-		expect(result).toBe({1:[1], 2:[2]})
+		expect(result).toEqual({1:[1], 2:[2]})
