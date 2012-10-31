@@ -16,6 +16,7 @@ class Marktab
 	slideDownPattern = /\\/
 	chordPattern = /\([0-9\s:]+\)/
 	riffPattern = /\[.*\]/
+	multiplierPattern = /[\[\(].*[\]\)]\s*x\n+/
 	ignorePattern = /[\s\n]/
 	setVariablePattern = /[\w0-9\-]+:\s*[\(\[].*[\)\]]/
 	variablePattern = /[\(\[].*[\)\]]/
@@ -94,6 +95,11 @@ class Marktab
 				i += part.length
 				tabMapPart[lastString] = []
 				tabMapPart[lastString][i] = parseInt(part, 10)
+			else if part.search(multiplierPattern) is 0
+				# multiplier
+				part = part.match(multiplierPattern)
+				i += part.length
+				tabMapPart = this.parseMultiplier(part)
 			else if part.search(riffPattern) is 0
 				# riff
 				part = part.match(riffPattern)[0]
@@ -214,6 +220,15 @@ class Marktab
 	# parses marktab variables into tabMap
 	parseVariable: (variableName) ->
 		customVars[variableName]
+
+	parseMultiplier: (input) ->
+		# TODOs: 
+		# - separate riff from multiplier
+		# - parse riff
+		# - parse multiplier
+		# - make riff happen x times
+		# - return tab map
+		{}
 
 	# makes each string's notes array the same length
 	normalizeTabMap: (tabMap = {}) ->
