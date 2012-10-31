@@ -122,12 +122,12 @@ class Marktab
 		this.parseTabMap(tabMap)
 		tabMap
 
-	# 
-	chomp: (line, from, stopChar) ->
-		lineArray = line.split("")
-		restOfLine = _.rest(lineArray, from)
-		stopIdx = _.indexOf(restOfLine, stopChar)
-		line.substr(from, stopIdx)
+	# # probably not going to use this
+	# chomp: (line, from, stopChar) ->
+	# 	lineArray = line.split("")
+	# 	restOfLine = _.rest(lineArray, from)
+	# 	stopIdx = _.indexOf(restOfLine, stopChar)
+	# 	line.substr(from, stopIdx)
 
 	# adds another frame to a tabMap
 	addFrame: (tabMap, frame) ->
