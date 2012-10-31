@@ -4,7 +4,7 @@
 ### Overview
 A [MarkTab](https://github.com/cknadler/marktab) parser written in CoffeeScript. 
 
-Not 100% functional yet.
+Not 100% functional yet, but basic usage is supported.
 
 Note: This is a different parser implementation than the [original](https://github.com/cknadler/marktab).
 
@@ -18,27 +18,26 @@ Marktab-coffee runs in a web browser (or in a headless browser such as [phantomj
 
 ### Usage
 
-In CoffeeScript...
+Basic usage (written in CoffeeScript):
 
     # initialize marktab-coffee
     marktab = new Marktab
 
     # input some marktabs
-    marktab.parse "3:5 4:5 7 5 3:5 4:5 7 5"
+    marktab.parse "6:3 5 5:2 3 5 4:2 4 5 3:2 4 5 2:3 5 1:2 3 5"
     
     # generate tabs
     tabs = marktab.generateTab
     
-    # output:
-    e|-----------------|
-	B|-----------------|
-	G|-5-------5-------|
-	D|---5-7-5---5-7-5-|
-	A|-----------------|
-	E|-----------------|
+Output:
 
-    
-    
+    e|---------------------------2-3-5-|
+	B|-----------------------3-5-------|
+	G|-----------------2-4-5-----------|
+	D|-----------2-4-5-----------------|
+	A|-----2-3-5-----------------------|
+	E|-3-5-----------------------------|
+
 See the specs in the `tests` directory for more examples.
 
 ### Tests
