@@ -45,7 +45,7 @@ See: [cknadler's marktab grammer page](https://github.com/cknadler/marktab/blob/
 
 ### Dependencies
 
-Marktab-coffee's only dependency is Underscore.js >= 1.4.2
+Marktab-coffee's only dependency is [Underscore.js](http://underscorejs.org/) >= 1.4.2
 
 ### Installation
 
