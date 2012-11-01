@@ -247,12 +247,12 @@ class Marktab
 			notes = tabMap[stringNum]
 			line = @stringNames[stringNum] + "|-"
 			for note in notes
-				if note != undefined
-					line += note
-				else
+				note = if note is undefined then '-' else note
+				noteLen = note.toString().length
+				numDashes = 3 - noteLen
+				line += note
+				for i in [1..numDashes]
 					line += '-'
-				if note < 10 || !note || _.isString(note)
-					line += "-" 
 			line += "|"
 			@lines.push(line)
 		@lines
