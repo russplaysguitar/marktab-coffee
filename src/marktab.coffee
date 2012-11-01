@@ -247,7 +247,10 @@ class Marktab
 			notes = tabMap[stringNum]
 			line = @stringNames[stringNum] + "|-"
 			for note in notes
-				line += (note || '-')
+				if note != undefined
+					line += note
+				else
+					line += '-'
 				if note < 10 || !note || _.isString(note)
 					line += "-" 
 			line += "|"
