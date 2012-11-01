@@ -16,7 +16,7 @@ class Marktab
 	slideDownPattern = /\\/
 	chordPattern = /\([0-9\s:]+\)/
 	riffPattern = /\[.*\]/
-	multiplierPattern = /[\[\(].*[\]\)]\s*x\n+/
+	multiplierPattern = /[\[\(].*[\]\)]\s*x[0-9]+/
 	ignorePattern = /[\s\n]/
 	setVariablePattern = /[\w0-9\-]+:\s*[\(\[].*[\)\]]/
 	variablePattern = /[\(\[].*[\)\]]/
