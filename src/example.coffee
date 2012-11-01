@@ -1,7 +1,7 @@
 $ = jQuery
 
 updateUrl = (input) ->
-	document.location.hash = input
+	document.location.hash = encodeURIComponent(input)
 	$('#link').val(document.location)
 
 $('#link').click ->
@@ -21,7 +21,7 @@ $('#input').keyup(parseInput)
 # default marktab
 if document.location.hash.length > 0 
 	hash = document.location.hash
-	defaultTab = hash.substr(1, hash.length-1)
+	defaultTab = decodeURIComponent(hash.substr(1, hash.length-1))
 else 
 	defaultTab = "6:3 5 5:2 3 / 5 4:2 4 5 3:2 4 h 5 2:3 5 1:2 3 5"
 
