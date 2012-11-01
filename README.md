@@ -39,6 +39,10 @@ See the specs in the `tests` directory for more examples.
 ### Demo
 [View the in-browser demo](http://russplaysguitar.github.com/marktab-coffee/)
 
+### Syntax
+
+See: [cknadler's marktab grammer page](https://github.com/cknadler/marktab/blob/master/docs/grammar.md)
+
 ### Dependencies
 
 Marktab-coffee's only dependency is Underscore.js >= 1.4.2
