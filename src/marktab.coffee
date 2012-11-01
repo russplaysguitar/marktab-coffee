@@ -118,6 +118,8 @@ class Marktab
 				part = part.match(variableNamePattern)[0]
 				i += part.length
 				tabMapPart = this.parseVariable(part)
+				this.mergeTabMaps(tabMap, tabMapPart)
+				continue
 			else
 				throw "unknown pattern: " + part
 			this.addFrame(tabMap, tabMapPart)	
