@@ -49,7 +49,13 @@ Marktab-coffee's only dependency is Underscore.js >= 1.4.2
 
 ### Installation
 
-Marktab-coffee runs in a web browser (or in a headless browser such as [phantomjs](http://phantomjs.org/)). 
+Marktab-coffee runs in a web browser (or in a headless browser such as [phantomjs](http://phantomjs.org/)). There are a few ways that you can "install" it. 
+
+Installation options:
+
+a. Include coffee-script.js and underscore.js before you include marktab-coffee. Simple.
+b. Use `npm install` to install the grunt.js dependencies, then run `grunt` to compile and run tests. Great for TDD.
+c. Use the command-line CoffeeScript compiler to compile marktab-coffee to Javascript, then include underscore.js on the page before marktab.js. Should perform better than dynamically compiling the CoffeeScript.
 
 ### Tests
 Tests must be run from a web server context, not a file:// url. Alternatively, you may use [gruntjs](http://gruntjs.com/) to compile and run the tests using the `grunt` command.
