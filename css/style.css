@@ -1,0 +1,9 @@
+#input {
+	width: 80%;
+	font-size: 30px;
+}
+
+#output {
+	font-family: Consolas,"Liberation Mono",Courier,monospace;
+	font-size:30px;
+}

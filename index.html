@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Marktab-coffee</title>
+		<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+		<meta content="utf-8" http-equiv="encoding">
+
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+
+		<!-- coffeescript compiler (marktab-coffee dependency) -->
+		<script type="text/javascript" src="libs/coffee-script.js"></script>
+
+		<!-- underscorejs (marktab-coffee dependency) -->
+		<script type="text/javascript" src="libs/underscore-min.js"></script>
+
+		<!-- marktab-coffee -->
+		<script type="text/coffeescript" src="src/marktab.coffee"></script>
+		
+		<!-- jQuery (page script dependency) -->
+		<script type="text/javascript" src="libs/jquery-1.8.2.min.js"></script>
+
+		<!-- page script -->
+		<script type="text/coffeescript" src="src/example.coffee"></script>
+	</head>
+
+	<body>
+		<h1>Marktab-coffee example</h1>
+		<p>Enter some marktab:</p>
+		<textarea id="input">6:3 5 5:2 3 / 5 4:2 4 5 3:2 4 h 5 2:3 5 1:2 3 5</textarea>
+		<p>Generated tab:</p>
+		<div id="output" />
+	</body>
+</html>
