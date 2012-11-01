@@ -12,11 +12,13 @@ class Marktab
 	restPattern = /r/
 	hammerPattern = /h/
 	pullOffPattern = /p/
+	vibratoPattern = /~/
+	mutePattern = /X/
 	slideUpPattern = /\//
 	slideDownPattern = /\\/
 	chordPattern = /\([0-9\s:]+\)/
 	riffPattern = /\[.*\]/
-	multiplierPattern = /[\[\(].*[\]\)]\s*x\n+/
+	multiplierPattern = /[\[\(].*[\]\)]\s*x[0-9]+/
 	ignorePattern = /[\s\n]/
 	setVariablePattern = /[\w0-9\-]+:\s*[\(\[].*[\)\]]/
 	variablePattern = /[\(\[].*[\)\]]/
@@ -116,6 +118,8 @@ class Marktab
 				part = part.match(variableNamePattern)[0]
 				i += part.length
 				tabMapPart = this.parseVariable(part)
+				this.mergeTabMaps(tabMap, tabMapPart)
+				continue
 			else
 				throw "unknown pattern: " + part
 			this.addFrame(tabMap, tabMapPart)	
