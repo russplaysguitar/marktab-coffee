@@ -12,6 +12,8 @@ class Marktab
 	restPattern = /r/
 	hammerPattern = /h/
 	pullOffPattern = /p/
+	vibratoPattern = /~/
+	mutePattern = /X/
 	slideUpPattern = /\//
 	slideDownPattern = /\\/
 	chordPattern = /\([0-9\s:]+\)/
