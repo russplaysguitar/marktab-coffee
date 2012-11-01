@@ -20,3 +20,13 @@ describe "generateTab", ->
 
 		# assert
 		expect(actual).not.toBe("")
+
+	it "should return handle hammer-ons", ->
+		# arrange
+		marktab.parse("1:1 h 2")
+
+		# act
+		actual = marktab.generateTab()
+
+		# assert
+		expect(actual).toEqual("e|-1-h-2-|\nB|-------|\nG|-------|\nD|-------|\nA|-------|\nE|-------|\n")

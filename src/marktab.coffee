@@ -248,7 +248,7 @@ class Marktab
 			line = @stringNames[stringNum] + "|-"
 			for note in notes
 				line += (note || '-')
-				if note < 10 || !note
+				if note < 10 || !note || _.isString(note)
 					line += "-" 
 			line += "|"
 			@lines.push(line)
