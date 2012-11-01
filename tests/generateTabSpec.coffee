@@ -29,4 +29,4 @@ describe "generateTab", ->
 		actual = marktab.generateTab()
 
 		# assert
-		expect(actual).toEqual("e|-1-h-2-|\nB|-------|\nG|-------|\nD|-------|\nA|-------|\nE|-------|\n")
+		expect(actual).toEqual("e|-1--h--2--|\nB|----------|\nG|----------|\nD|----------|\nA|----------|\nE|----------|\n")
