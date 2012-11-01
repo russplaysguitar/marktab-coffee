@@ -118,7 +118,7 @@ class Marktab
 				part = part.match(variableNamePattern)[0]
 				i += part.length
 				tabMapPart = this.parseVariable(part)
-				this.mergeTabMaps(tabMap, tabMapPart)
+				tabMap = this.addTabMaps(tabMap, tabMapPart)
 				continue
 			else
 				throw "unknown pattern: " + part
@@ -150,6 +150,14 @@ class Marktab
 			max = size if size > max
 		max
 	
+	addTabMaps: (a, b) ->
+		result = this.normalizeTabMap(a)
+		aLen = this.longestString(a)
+		for strNum, strNotesArr of b
+			for fret, i in strNotesArr
+				result[strNum][aLen + i] = fret
+		result
+
 	# merges two tabMaps together, with the source overwriting the destination
 	mergeTabMaps: (dest, source) ->
 		for stringNum, stringNotes of source
