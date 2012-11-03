@@ -13,19 +13,21 @@ class Marktab
 	hammerPattern = /h/
 	pullOffPattern = /p/
 	vibratoPattern = /~/
-	mutePattern = /X/
+	mutePattern = /x/
+	palmMutePattern = /./
 	slideUpPattern = /\//
 	slideDownPattern = /\\/
 	chordPattern = /\([0-9\s:]+\)/
 	riffPattern = /\[.*\]/
-	multiplierPattern = /[\[\(].*[\]\)]\s*x[0-9]+/
+	multiplierLinePattern = /[\[\(].*[\]\)]\s*x[0-9]+/
+	multiplierPattern = /x[0-9]+/
 	ignorePattern = /[\s\n]/
 	setVariablePattern = /[\w0-9\-]+:\s*[\(\[].*[\)\]]/
 	variablePattern = /[\(\[].*[\)\]]/
 	variableNamePattern = /[\w0-9\-]+/
 	customVars = {}
 	
-	constructor: (@lines = [], @stringNames = stringNameDefaults) ->
+	constructor: (@lines = [], @stringNames = stringNameDefaults, @lineBreak = 80) ->
 		# @lines contains an array of parsed lines, ready to be output
 		this
 
@@ -50,7 +52,7 @@ class Marktab
 				# note
 				part = part.match(notePattern)[0]
 				i += part.length
-				tabMapPart = this.parseNotes(part)
+				tabMapPart = this.parseNote(part)
 				lastString = parseInt(_.keys(tabMapPart), 10)
 			else if part.search(restPattern) is 0
 				# rest
@@ -97,9 +99,9 @@ class Marktab
 				i += part.length
 				tabMapPart[lastString] = []
 				tabMapPart[lastString][i] = parseInt(part, 10)
-			else if part.search(multiplierPattern) is 0
+			else if part.search(multiplierLinePattern) is 0
 				# multiplier
-				part = part.match(multiplierPattern)
+				part = part.match(multiplierLinePattern)
 				i += part.length
 				tabMapPart = this.parseMultiplier(part)
 			else if part.search(riffPattern) is 0
@@ -151,10 +153,11 @@ class Marktab
 		max
 	
 	addTabMaps: (a, b) ->
-		result = this.normalizeTabMap(a)
+		result = this.cloneTabMap(a)
 		aLen = this.longestString(a)
 		for strNum, strNotesArr of b
 			for fret, i in strNotesArr
+				result[strNum] ?= []
 				result[strNum][aLen + i] = fret
 		result
 
@@ -176,8 +179,8 @@ class Marktab
 		result
 
 	# parses marktab note into a single tabMap frame
-	# example: parseNotes("5:6") => { 5: [6] }
-	parseNotes: (note) ->
+	# example: parseNote("5:6") => { 5: [6] }
+	parseNote: (note) ->
 		result = {}
 		stringAndFret = note.split(":")
 		string = stringAndFret[0]
@@ -193,7 +196,7 @@ class Marktab
 		notesLine = chord.substr(1, chord.length-2)# remove parenthesis
 		notes = notesLine.split(" ")
 		for note in notes
-			this.mergeTabMaps(result, this.parseNotes(note))
+			this.mergeTabMaps(result, this.parseNote(note))
 		result
 
 	# parses marktab riffs into tabMap
@@ -234,13 +237,36 @@ class Marktab
 		customVars[variableName]
 
 	parseMultiplier: (input) ->
-		# TODOs: 
-		# - separate riff from multiplier
-		# - parse riff
+		result = {}
+
+		# parse either a riff or a chord. TODO: make this work without code duplication
+		if input.search(chordPattern) is 0
+			part = input.match(chordPattern)[0]
+			tabToMultiply = this.parseChord(part)
+		else if input.search(riffPattern) is 0
+			part = input.match(riffPattern)[0]
+			tabToMultiply = this.parseRiff(part)
+		else
+			throw "cannot set invalid multiplied part: " + part
+
+		part = input.substr(part.length, input.length-part.length)# get rest of line
+		# advance past ignored characters
+		while part.search(ignorePattern) is 0
+			part = part.substr(1, part.length-1)
+
 		# - parse multiplier
+		multiplier = part.match(multiplierPattern)[0]
+		times = multiplier.substr(1, multiplier.length-1)# advance past "x" character
+		times = parseInt(times, 10)
+
 		# - make riff happen x times
-		# - return tab map
-		{}
+		i = 1
+		while i <= times
+			result = this.addTabMaps(result, tabToMultiply)
+			i++
+
+		# return tab map
+		result
 
 	# makes each string's notes array the same length
 	normalizeTabMap: (tabMap = {}) ->
@@ -255,6 +281,7 @@ class Marktab
 	parseTabMap: (tabMap = {}) ->
 		line = ""
 		tabMap = this.normalizeTabMap(tabMap)
+		# TODO: break lines after @lineBreak chars
 		for stringNum in [1..6]
 			notes = tabMap[stringNum]
 			line = @stringNames[stringNum] + "|-"
