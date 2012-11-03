@@ -15,6 +15,7 @@ parseInput = () ->
 	html = tab.replace(/\n/g,'<br />')
 	$('#output').html(html)
 	updateUrl(input)
+	window.scrollTo(0, document.body.scrollHeight)
 
 $('#input').keyup(parseInput)
 
