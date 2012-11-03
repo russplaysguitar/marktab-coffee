@@ -1,3 +1,7 @@
+body {
+	white-space: nowrap;
+}
+
 #input {
 	width: 80%;
 	font-size: 30px;
