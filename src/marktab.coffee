@@ -314,7 +314,7 @@ class Marktab
 						break
 				line += "|"
 				@lines.push(line)
-			@lines.push("")
+			@lines.push("") if someLeft
 		@lines
 
 	# simply returns @lines concatenated into a string with newlines (\n)
