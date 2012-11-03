@@ -8,7 +8,7 @@ $('#link').click ->
 	$(this).select()
 
 parseInput = () ->
-	marktab = new Marktab
+	marktab = new Marktab(null, null, null, 70)
 	input = $('#input').val()
 	marktab.parse(input)
 	tab = marktab.generateTab()
