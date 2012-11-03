@@ -111,6 +111,8 @@ class Marktab
 				part = part.match(riffPattern)[0]
 				i += part.length
 				tabMapPart = this.parseRiff(part)
+				tabMap = this.addTabMaps(tabMap, tabMapPart)
+				continue
 			else if part.search(setVariablePattern) is 0
 				# set variable
 				part = part.match(setVariablePattern)[0]
