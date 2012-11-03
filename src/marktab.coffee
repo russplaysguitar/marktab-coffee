@@ -43,6 +43,13 @@ class Marktab
 				part = part.match(ignorePattern)[0]
 				i += part.length
 				continue
+			else if part.search(multiplierLinePattern) is 0
+				# multiplier
+				part = part.match(multiplierLinePattern)[0]
+				i += part.length
+				tabMapPart = this.parseMultiplier(part)
+				tabMap = this.addTabMaps(tabMap, tabMapPart)
+				continue
 			else if part.search(chordPattern) is 0
 				# chord
 				part = part.match(chordPattern)[0]
@@ -99,11 +106,6 @@ class Marktab
 				i += part.length
 				tabMapPart[lastString] = []
 				tabMapPart[lastString][i] = parseInt(part, 10)
-			else if part.search(multiplierLinePattern) is 0
-				# multiplier
-				part = part.match(multiplierLinePattern)
-				i += part.length
-				tabMapPart = this.parseMultiplier(part)
 			else if part.search(riffPattern) is 0
 				# riff
 				part = part.match(riffPattern)[0]
@@ -238,7 +240,6 @@ class Marktab
 
 	parseMultiplier: (input) ->
 		result = {}
-
 		# parse either a riff or a chord. TODO: make this work without code duplication
 		if input.search(chordPattern) is 0
 			part = input.match(chordPattern)[0]
