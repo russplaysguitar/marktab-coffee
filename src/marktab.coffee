@@ -15,6 +15,8 @@ class Marktab
 	vibratoPattern = /~/
 	mutePattern = /x/
 	palmMutePattern = /./
+	bendPattern = /[0-9]+b[0-9+]/
+	harmonicPattern = /[0-9]+\*/
 	slideUpPattern = /\//
 	slideDownPattern = /\\/
 	chordPattern = /\([0-9\s:]+\)/
