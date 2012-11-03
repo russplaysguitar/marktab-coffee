@@ -10,8 +10,9 @@ describe "parseChord", ->
 
 	it "Should convert chords to json", ->
 		# arrange
-		chord = "(5:7 4:9 3:9)"
-		expected = 
+		chord = "(5:7 4:9 3:9 2:0)"
+		expected =
+			2:[0] 
 			3:[9]
 			4:[9]
 			5:[7]
