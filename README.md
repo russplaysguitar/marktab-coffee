@@ -2,15 +2,11 @@
 [![Build Status](https://travis-ci.org/russplaysguitar/marktab-coffee.png)](https://travis-ci.org/russplaysguitar/marktab-coffee)
 
 ### Overview
-A [MarkTab](https://github.com/cknadler/marktab) parser written in CoffeeScript. 
-
-Not 100% functional yet, but basic usage is supported.
-
-Note: This is a different parser implementation than the [original](https://github.com/cknadler/marktab).
+A [Marktab](https://github.com/cknadler/marktab) parser written in CoffeeScript. See the original Marktab project here: [cknadler/marktab](https://github.com/cknadler/marktab).
 
 ### What is Marktab?
 
-Marktab is a concise guitar tab syntax in the spirit of Markdown, originally concieved by [cknadler](https://github.com/cknadler/).
+Marktab is a concise guitar tab syntax in the spirit of Markdown created by [cknadler](https://github.com/cknadler/). 
 
 ### Usage
 
@@ -41,7 +37,9 @@ See the specs in the `tests` directory for more examples.
 
 ### Syntax
 
-See: [cknadler's marktab grammer page](https://github.com/cknadler/marktab/blob/master/docs/grammar.md)
+Basic Marktab syntax is simply: `string:fret`. For example, `6:5` equates to a note on the 5th fret of the 6th string. 
+
+See the full syntax specificaton here: [cknadler's marktab grammer page](https://github.com/cknadler/marktab/blob/master/docs/grammar.md)
 
 ### Dependencies
 
