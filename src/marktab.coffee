@@ -291,19 +291,30 @@ class Marktab
 	parseTabMap: (tabMap = {}) ->
 		line = ""
 		tabMap = this.normalizeTabMap(tabMap)
-		# TODO: break lines after @lineBreak chars
-		for stringNum in [1..6]
-			notes = tabMap[stringNum]
-			line = @stringNames[stringNum] + "|-"
-			for note in notes
-				note = if note isnt undefined && !_.isNaN(note) then note else '-'
-				noteLen = note.toString().length
-				numDashes = 3 - noteLen
-				line += note
-				for i in [1..numDashes]
-					line += '-'
-			line += "|"
-			@lines.push(line)
+		noteIdx = 0
+		startAt = 0
+		someLeft = true
+		while someLeft
+			someLeft = false
+			for stringNum in [1..6]
+				if stringNum is 1
+					noteIdx = startAt
+				notes = tabMap[stringNum] = tabMap[stringNum].splice(noteIdx)
+				line = @stringNames[stringNum] + "|-"
+				for note, i in notes
+					note = if note isnt undefined && !_.isNaN(note) then note else '-'
+					noteLen = note.toString().length
+					numDashes = 3 - noteLen
+					line += note
+					for j in [1..numDashes]
+						line += '-'
+					if line.length > @lineBreak
+						startAt = i
+						someLeft = true
+						break
+				line += "|"
+				@lines.push(line)
+			@lines.push("")
 		@lines
 
 	# simply returns @lines concatenated into a string with newlines (\n)
