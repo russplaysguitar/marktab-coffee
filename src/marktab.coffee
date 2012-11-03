@@ -13,7 +13,8 @@ class Marktab
 	hammerPattern = /h/
 	pullOffPattern = /p/
 	vibratoPattern = /~/
-	mutePattern = /X/
+	mutePattern = /x/
+	palmMutePattern = /./
 	slideUpPattern = /\//
 	slideDownPattern = /\\/
 	chordPattern = /\([0-9\s:]+\)/
@@ -26,7 +27,7 @@ class Marktab
 	variableNamePattern = /[\w0-9\-]+/
 	customVars = {}
 	
-	constructor: (@lines = [], @stringNames = stringNameDefaults) ->
+	constructor: (@lines = [], @stringNames = stringNameDefaults, @lineBreak = 80) ->
 		# @lines contains an array of parsed lines, ready to be output
 		this
 
@@ -280,6 +281,7 @@ class Marktab
 	parseTabMap: (tabMap = {}) ->
 		line = ""
 		tabMap = this.normalizeTabMap(tabMap)
+		# TODO: break lines after @lineBreak chars
 		for stringNum in [1..6]
 			notes = tabMap[stringNum]
 			line = @stringNames[stringNum] + "|-"
