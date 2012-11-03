@@ -45,14 +45,14 @@ class Marktab
 				i += part.length
 				continue
 			else if part.search(riffMultiplierPattern) is 0
-				# multiplier
+				# riff multiplier
 				part = part.match(riffMultiplierPattern)[0]
 				i += part.length
 				tabMapPart = this.parseMultiplier(part)
 				tabMap = this.addTabMaps(tabMap, tabMapPart)
 				continue
 			else if part.search(chordMultiplierPattern) is 0
-				# multiplier
+				# chord multiplier
 				part = part.match(chordMultiplierPattern)[0]
 				i += part.length
 				tabMapPart = this.parseMultiplier(part)
