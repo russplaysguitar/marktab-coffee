@@ -19,7 +19,8 @@ class Marktab
 	slideDownPattern = /\\/
 	chordPattern = /\([0-9\s:]+\)/
 	riffPattern = /\[.*\]/
-	multiplierLinePattern = /[\[\(].*[\]\)]\s*x[0-9]+/
+	chordMultiplierPattern = /\([0-9\s:]+\)\s*x[0-9]+/ 
+	riffMultiplierPattern = /\[.*\]\s*x[0-9]+/
 	multiplierPattern = /x[0-9]+/
 	ignorePattern = /[\s\n]/
 	setVariablePattern = /[\w0-9\-]+:\s*[\(\[].*[\)\]]/
@@ -43,13 +44,20 @@ class Marktab
 				part = part.match(ignorePattern)[0]
 				i += part.length
 				continue
-			else if part.search(multiplierLinePattern) is 0
+			else if part.search(riffMultiplierPattern) is 0
 				# multiplier
-				part = part.match(multiplierLinePattern)[0]
+				part = part.match(riffMultiplierPattern)[0]
 				i += part.length
 				tabMapPart = this.parseMultiplier(part)
 				tabMap = this.addTabMaps(tabMap, tabMapPart)
 				continue
+			else if part.search(chordMultiplierPattern) is 0
+				# multiplier
+				part = part.match(chordMultiplierPattern)[0]
+				i += part.length
+				tabMapPart = this.parseMultiplier(part)
+				tabMap = this.addTabMaps(tabMap, tabMapPart)
+				continue				
 			else if part.search(chordPattern) is 0
 				# chord
 				part = part.match(chordPattern)[0]
