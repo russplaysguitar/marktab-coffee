@@ -26,9 +26,8 @@ class Marktab
 	setVariablePattern = /[\w0-9\-]+:\s*[\(\[].*[\)\]]/
 	variablePattern = /[\(\[].*[\)\]]/
 	variableNamePattern = /[\w0-9\-]+/
-	customVars = {}
 	
-	constructor: (@lines = [], @stringNames = stringNameDefaults, @lineBreak = 80) ->
+	constructor: (@customVars = {}, @lines = [], @stringNames = stringNameDefaults, @lineBreak = 80) ->
 		# @lines contains an array of parsed lines, ready to be output
 		this
 
@@ -215,7 +214,7 @@ class Marktab
 	# example: parseRiff("[1:1 2 h 3 r 7 p 5]") => { 1:[1, 2, 'h', 3, 'r', 7, 'p', 5] }
 	parseRiff: (riff) ->
 		riffLine = riff.substr(1, riff.length-2)# remove brackets
-		m = new Marktab
+		m = new Marktab(@customVars)
 		m.parse(riffLine)
 		
 	# sets marktab variables
@@ -241,12 +240,12 @@ class Marktab
 			varTab = this.parseRiff(part)
 		else
 			throw "cannot set invalid variable: " + part
-		customVars[varName] = varTab # save variable info for later
+		@customVars[varName] = varTab # save variable info for later
 
 
 	# parses marktab variables into tabMap
 	parseVariable: (variableName) ->
-		customVars[variableName]
+		@customVars[variableName]
 
 	parseMultiplier: (input) ->
 		result = {}
