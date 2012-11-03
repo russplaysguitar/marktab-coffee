@@ -24,7 +24,7 @@ if document.location.hash.length > 0
 	hash = document.location.hash
 	defaultTab = decodeURIComponent(hash.substr(1, hash.length-1))
 else 
-	defaultTab = "6:3 5 5:2 3 / 5 4:2 4 5 3:2 4 h 5 2:3 5 1:2 3 5"
+	defaultTab = "G: (6:3 5:2 4:0 3:0 2:0 1:3)\nG-scale: [6:3 5 5:2 3 / 5 4:2 4 5 3:2 4 h 5 2:3 5 1:2 3 5]\nG-scale G G r G"
 
 $('#input').val(defaultTab)
 
