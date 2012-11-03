@@ -50,7 +50,7 @@ class Marktab
 				# note
 				part = part.match(notePattern)[0]
 				i += part.length
-				tabMapPart = this.parseNotes(part)
+				tabMapPart = this.parseNote(part)
 				lastString = parseInt(_.keys(tabMapPart), 10)
 			else if part.search(restPattern) is 0
 				# rest
@@ -176,8 +176,8 @@ class Marktab
 		result
 
 	# parses marktab note into a single tabMap frame
-	# example: parseNotes("5:6") => { 5: [6] }
-	parseNotes: (note) ->
+	# example: parseNote("5:6") => { 5: [6] }
+	parseNote: (note) ->
 		result = {}
 		stringAndFret = note.split(":")
 		string = stringAndFret[0]
@@ -193,7 +193,7 @@ class Marktab
 		notesLine = chord.substr(1, chord.length-2)# remove parenthesis
 		notes = notesLine.split(" ")
 		for note in notes
-			this.mergeTabMaps(result, this.parseNotes(note))
+			this.mergeTabMaps(result, this.parseNote(note))
 		result
 
 	# parses marktab riffs into tabMap

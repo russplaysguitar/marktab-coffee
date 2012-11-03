@@ -1,4 +1,4 @@
-describe "parseNotes", ->
+describe "parseNote", ->
 	marktab = undefined
 
 	beforeEach ->
@@ -6,14 +6,14 @@ describe "parseNotes", ->
 
 	it "Should exist", ->
 		#assert
-		expect(marktab.parseNotes).toBeDefined()
+		expect(marktab.parseNote).toBeDefined()
 	
 	it "Should convert a single note to json", ->
 		# arrange
 		note = "1:1"
 
 		# act
-		result = marktab.parseNotes note
+		result = marktab.parseNote note
 
 		# assert
 		expect(result).toEqual({1:[1]})
