@@ -2,9 +2,9 @@
   "name" : "marktab-coffee",
   "title" : "Marktab in CoffeeScript",
   "version" : "0.1.0",
-  "description" : "",
-  "keywords": [],
-  "homepage" : "",
+  "description" : "Concise guitar tab syntax and ascii tab generator.",
+  "keywords": ["guitar","tab","marktab"],
+  "homepage" : "http://github.com/russplaysguitar/marktab-coffee",
   "author" : {
     "name" : "Russell Spivey",
     "url" : "http://github.com/russplaysguitar/marktab-coffee"
@@ -14,10 +14,10 @@
     "url" : "git://github.com/russplaysguitar/marktab-coffee.git"
   },
   "bugs" : {
-    "url" : "https://github.com/russplaysguitar/marktab-coffee/issues",
-    "url": "https://github.com/russplaysguitar/marktab-coffee/blob/master/LICENSE-MIT"
+    "url" : "https://github.com/russplaysguitar/marktab-coffee/issues"
   },
   "licenses": [{
+    "url": "https://github.com/russplaysguitar/marktab-coffee/blob/master/LICENSE-MIT",
     "type": "MIT"
   }],
   "devDependencies" : {
