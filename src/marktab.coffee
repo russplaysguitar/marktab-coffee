@@ -30,6 +30,7 @@ class Marktab
 	variableNamePattern = /[\w0-9\-]+/
 	
 	constructor: (@customVars = {}, @lines = [], @stringNames = stringNameDefaults, @lineBreak = 80) ->
+		# @customVars contains variables defined by the user (like: "myRiff: [1:2 2:2]")
 		# @lines contains an array of parsed lines, ready to be output
 		this
 
@@ -216,7 +217,7 @@ class Marktab
 	# example: parseRiff("[1:1 2 h 3 r 7 p 5]") => { 1:[1, 2, 'h', 3, 'r', 7, 'p', 5] }
 	parseRiff: (riff) ->
 		riffLine = riff.substr(1, riff.length-2)# remove brackets
-		m = new Marktab(@customVars)
+		m = new Marktab(@customVars)# recurse, keeping any user-defined variables
 		m.parse(riffLine)
 		
 	# sets marktab variables
