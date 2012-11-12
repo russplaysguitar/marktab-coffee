@@ -224,6 +224,16 @@ class Marktab
 				result[stringNum][i] = fret
 		result
 
+	# converts input to integer, if possible
+	toIntIfPossible: (input) ->
+		inputAsInt = parseInt(input, 10)
+		if _.isNaN(inputAsInt) 
+			return input
+		else if _.isString(input) && inputAsInt.toString() != input
+			return input
+		else
+			return inputAsInt
+
 	# parses marktab note into a single tabMap frame
 	# example: parseNote("5:6") => { 5: [6] }
 	parseNote: (note) ->
@@ -234,14 +244,6 @@ class Marktab
 		result[string] ?= []
 		result[string][0] = this.toIntIfPossible(fret)
 		result
-
-	# converts input to integer, if possible
-	toIntIfPossible: (input) ->
-		inputAsInt = parseInt(input, 10)
-		if _.isNaN(inputAsInt)
-			return input
-		else
-			return inputAsInt
 
 	# parses marktab chords into tabMap
 	# example: parseChord("(6:8 5:6)") => { 5:[6], 6:[8] }

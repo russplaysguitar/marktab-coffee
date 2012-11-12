@@ -37,3 +37,18 @@ describe "parseChord", ->
 
 		# assert
 		expect(result).toEqual(expected)	
+
+	it "Should convert chords with harmonics to json", ->
+		# arrange
+		chord = "(1:1 2:4 3:4 4:12*)"
+		expected =
+			1:[1] 
+			2:[4]
+			3:[4]
+			4:['12*']
+
+		# act
+		result = marktab.parseChord chord
+
+		# assert
+		expect(result).toEqual(expected)	
