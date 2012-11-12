@@ -7,16 +7,18 @@ class Marktab
 		4: "D"
 		5: "A"
 		6: "E"
-	notePattern = /[0-9]+:[0-9]+/
+	notePattern = /[0-9]+:[0-9x]+/ # matches digits and mutes (x)
 	singleNotePattern = /[0-9]+/
 	restPattern = /r/
 	hammerPattern = /h/
 	pullOffPattern = /p/
-	vibratoPattern = /~/
-	mutePattern = /x/
-	palmMutePattern = /./
 	slideUpPattern = /\//
 	slideDownPattern = /\\/
+	mutePattern = /x/
+	palmMutePattern = /./ # TODO: figure this out
+	bendPattern = /b/
+	harmonicPattern = /\*/
+	vibratoPattern = /~/
 	chordPattern = /\([0-9\s:]+\)/
 	riffPattern = /\[.*\]/
 	chordMultiplierPattern = /\([0-9\s:]+\)\s*x[0-9]+/ 
@@ -28,6 +30,7 @@ class Marktab
 	variableNamePattern = /[\w0-9\-]+/
 	
 	constructor: (@customVars = {}, @lines = [], @stringNames = stringNameDefaults, @lineBreak = 80) ->
+		# @customVars contains variables defined by the user (like: "myRiff: [1:2 2:2]")
 		# @lines contains an array of parsed lines, ready to be output
 		this
 
@@ -105,6 +108,38 @@ class Marktab
 				i += part.length
 				tabMapPart[lastString] = []
 				tabMapPart[lastString][i] = "\\"
+			else if part.search(mutePattern) is 0
+				# mute
+				if !lastString
+					throw "invalid mute"
+				part = part.match(mutePattern)[0]
+				i += part.length
+				tabMapPart[lastString] = []
+				tabMapPart[lastString][i] = "x"
+			else if part.search(bendPattern) is 0
+				# bend
+				if !lastString
+					throw "invalid bend"
+				part = part.match(bendPattern)[0]
+				i += part.length
+				tabMapPart[lastString] = []
+				tabMapPart[lastString][i] = "b"
+			else if part.search(harmonicPattern) is 0
+				# harmonic
+				if !lastString
+					throw "invalid harmonic"
+				part = part.match(harmonicPattern)[0]
+				i += part.length
+				tabMapPart[lastString] = []
+				tabMapPart[lastString][i] = "*"	
+			else if part.search(vibratoPattern) is 0
+				# vibrato
+				if !lastString
+					throw "invalid vibrato"
+				part = part.match(vibratoPattern)[0]
+				i += part.length
+				tabMapPart[lastString] = []
+				tabMapPart[lastString][i] = "~"								
 			else if part.search(singleNotePattern) is 0
 				# single note
 				if !lastString
@@ -197,8 +232,16 @@ class Marktab
 		string = stringAndFret[0]
 		fret = stringAndFret[1]
 		result[string] ?= []
-		result[string][0] = parseInt(fret, 10) 
+		result[string][0] = this.toIntIfPossible(fret)
 		result
+
+	# converts input to integer, if possible
+	toIntIfPossible: (input) ->
+		inputAsInt = parseInt(input, 10)
+		if _.isNaN(inputAsInt)
+			return input
+		else
+			return inputAsInt
 
 	# parses marktab chords into tabMap
 	# example: parseChord("(6:8 5:6)") => { 5:[6], 6:[8] }
@@ -214,7 +257,7 @@ class Marktab
 	# example: parseRiff("[1:1 2 h 3 r 7 p 5]") => { 1:[1, 2, 'h', 3, 'r', 7, 'p', 5] }
 	parseRiff: (riff) ->
 		riffLine = riff.substr(1, riff.length-2)# remove brackets
-		m = new Marktab(@customVars)
+		m = new Marktab(@customVars)# recurse, keeping any user-defined variables
 		m.parse(riffLine)
 		
 	# sets marktab variables
