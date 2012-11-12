@@ -107,3 +107,13 @@ describe "parseNote", ->
 
 		#assert
 		expect(result).toEqual({1:[2, 'b', 3]})
+
+	it "Should convert harmonic to json", ->
+		# arrange
+		notes = "3:12*"
+
+		#act
+		result = marktab.parse notes
+
+		#assert
+		expect(result).toEqual({3:[12, '*']})

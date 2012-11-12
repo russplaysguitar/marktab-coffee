@@ -124,6 +124,14 @@ class Marktab
 				i += part.length
 				tabMapPart[lastString] = []
 				tabMapPart[lastString][i] = "b"
+			else if part.search(harmonicPattern) is 0
+				# harmonic
+				if !lastString
+					throw "invalid harmonic"
+				part = part.match(harmonicPattern)[0]
+				i += part.length
+				tabMapPart[lastString] = []
+				tabMapPart[lastString][i] = "*"				
 			else if part.search(singleNotePattern) is 0
 				# single note
 				if !lastString
