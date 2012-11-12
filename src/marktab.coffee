@@ -15,7 +15,7 @@ class Marktab
 	slideUpPattern = /\//
 	slideDownPattern = /\\/
 	mutePattern = /x/
-	palmMutePattern = /./
+	palmMutePattern = /./ # TODO: figure this out
 	bendPattern = /b/
 	harmonicPattern = /\*/
 	vibratoPattern = /~/
@@ -131,7 +131,15 @@ class Marktab
 				part = part.match(harmonicPattern)[0]
 				i += part.length
 				tabMapPart[lastString] = []
-				tabMapPart[lastString][i] = "*"				
+				tabMapPart[lastString][i] = "*"	
+			else if part.search(vibratoPattern) is 0
+				# vibrato
+				if !lastString
+					throw "invalid vibrato"
+				part = part.match(vibratoPattern)[0]
+				i += part.length
+				tabMapPart[lastString] = []
+				tabMapPart[lastString][i] = "~"								
 			else if part.search(singleNotePattern) is 0
 				# single note
 				if !lastString

@@ -117,3 +117,13 @@ describe "parseNote", ->
 
 		#assert
 		expect(result).toEqual({3:[12, '*']})
+
+	it "Should convert vibrato to json", ->
+		# arrange
+		notes = "2:5~"
+
+		#act
+		result = marktab.parse notes
+
+		#assert
+		expect(result).toEqual({2:[5, '~']})
