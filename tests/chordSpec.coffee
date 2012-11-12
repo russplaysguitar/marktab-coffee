@@ -22,3 +22,18 @@ describe "parseChord", ->
 
 		# assert
 		expect(result).toEqual(expected)	
+
+	it "Should convert muted chords to json", ->
+		# arrange
+		chord = "(5:x 4:9 3:x 2:0)"
+		expected =
+			2:[0] 
+			3:['x']
+			4:[9]
+			5:['x']
+
+		# act
+		result = marktab.parseChord chord
+
+		# assert
+		expect(result).toEqual(expected)	
