@@ -19,9 +19,9 @@ class Marktab
 	bendPattern = /b/
 	harmonicPattern = /\*/
 	vibratoPattern = /~/
-	chordPattern = /\([0-9\s:]+\)/
+	chordPattern = /\([0-9\s:x\*]+\)/
 	riffPattern = /\[.*\]/
-	chordMultiplierPattern = /\([0-9\s:]+\)\s*x[0-9]+/ 
+	chordMultiplierPattern = /\([0-9\s:x\*]+\)\s*x[0-9]+/ 
 	riffMultiplierPattern = /\[.*\]\s*x[0-9]+/
 	multiplierPattern = /x[0-9]+/
 	ignorePattern = /[\s\n]/
