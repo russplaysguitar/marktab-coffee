@@ -77,3 +77,23 @@ describe "parseNote", ->
 
 		#assert
 		expect(result).toEqual({2:[6, '\\', 3]})
+
+	it "Should convert mute to json", ->
+		# arrange
+		notes = "1:x"
+
+		#act
+		result = marktab.parse notes
+
+		#assert
+		expect(result).toEqual({1:['x']})
+
+	it "Should convert mute to json v2", ->
+		# arrange
+		notes = "2:0 x"
+
+		#act
+		result = marktab.parse notes
+
+		#assert
+		expect(result).toEqual({2:[0, 'x']})
