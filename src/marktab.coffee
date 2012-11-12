@@ -116,6 +116,14 @@ class Marktab
 				i += part.length
 				tabMapPart[lastString] = []
 				tabMapPart[lastString][i] = "x"
+			else if part.search(bendPattern) is 0
+				# bend
+				if !lastString
+					throw "invalid bend"
+				part = part.match(bendPattern)[0]
+				i += part.length
+				tabMapPart[lastString] = []
+				tabMapPart[lastString][i] = "b"
 			else if part.search(singleNotePattern) is 0
 				# single note
 				if !lastString

@@ -97,3 +97,13 @@ describe "parseNote", ->
 
 		#assert
 		expect(result).toEqual({2:[0, 'x']})
+
+	it "Should convert bend to json", ->
+		# arrange
+		notes = "1:2 b 3"
+
+		#act
+		result = marktab.parse notes
+
+		#assert
+		expect(result).toEqual({1:[2, 'b', 3]})
