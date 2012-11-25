@@ -1,0 +1,3 @@
+[submodule "marktab-tests"]
+	path = marktab-tests
+	url = https://github.com/cknadler/marktab-tests.git
