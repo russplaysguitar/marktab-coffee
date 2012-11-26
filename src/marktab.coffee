@@ -1,3 +1,6 @@
+# load dependency for running in nodejs
+_ = require('underscore') if require? and !_
+
 class Marktab
 	# private instance variables
 	stringNameDefaults = 
@@ -369,4 +372,10 @@ class Marktab
 			result += line + "\n"
 		result
 
+# export for nodejs
+exports = exports ? {}
+exports.Marktab = Marktab
+
+# "export" for browser
+window = window ? {}
 window.Marktab = Marktab
