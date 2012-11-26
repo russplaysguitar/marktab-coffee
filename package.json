@@ -26,7 +26,8 @@
     "grunt-growl" : "0.1.2",
     "grunt-jasmine-runner" : "0.5.5",
     "commander" : "1.1.1",
-    "underscore" : "1.4.2"
+    "underscore" : "1.4.2",
+    "coffee-script" : "1.4.0"
   },
   "scripts": {
     "test": "grunt travis"

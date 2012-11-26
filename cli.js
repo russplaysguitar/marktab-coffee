@@ -1,15 +1,18 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies.
- */
-
+// dependencies
 var program = require('commander');
 var fs = require('fs');
-var m = require('./bin/js/marktab');
+var CoffeeScript = require('coffee-script');
 
-var marktab = new m.Marktab();
+// get marktab.coffee from file and evaluate it
+var mt_coffee = fs.readFileSync('src/marktab.coffee', 'utf-8');
+var Marktab = CoffeeScript.eval(mt_coffee);
 
+// instantiate marktab
+var marktab = new Marktab();
+
+// command-line handling via commander.js
 program
   .version('0.0.1')
   .command('*')
@@ -22,6 +25,7 @@ program
   });
 program.parse(process.argv);
 
+// handle missing filename
 if (program.args.length === 0) {
   process.stderr.write('Error: No filename specified.\n');
   process.exit(1);

@@ -372,10 +372,6 @@ class Marktab
 			result += line + "\n"
 		result
 
-# export for nodejs
-exports = exports ? {}
-exports.Marktab = Marktab
-
 # "export" for browser
 window = window ? {}
 window.Marktab = Marktab
